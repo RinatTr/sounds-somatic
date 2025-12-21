@@ -25,40 +25,45 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  width: 400px;
-  height: 400px;
+  width: 340px;
+  height: 340px;
 }
 
 .arrow {
   position: absolute;
-  font-size: 2rem;
+  font-size: 1.2rem;
   color: #667eea;
-  opacity: 0.7;
-  transition: all 0.3s ease;
+  opacity: 0.4;
+  transition: opacity 0.3s ease;
+  pointer-events: none;
 }
 
 .arrow-up {
-  top: 5%;
+  top: 10px;
   left: 50%;
   transform: translateX(-50%);
 }
 
 .arrow-down {
-  bottom: 5%;
+  bottom: 10px;
   left: 50%;
   transform: translateX(-50%);
 }
 
 .arrow-left {
-  left: 5%;
+  left: 10px;
   top: 50%;
   transform: translateY(-50%);
 }
 
 .arrow-right {
-  right: 5%;
+  right: 10px;
   top: 50%;
   transform: translateY(-50%);
+}
+
+.arrow-container:hover .arrow {
+  opacity: 0.6;
 }
 
 

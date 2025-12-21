@@ -16,8 +16,9 @@
   position: relative;
   width: 300px;
   height: 300px;
-  background: #00D4FF;
-  background: radial-gradient(circle, rgba(114, 232, 255, 0.7) 4%, rgba(9, 9, 121, 1) 95%, rgba(2, 0, 36, 1) 100%);
+  /* background: #00D4FF; */
+  /* background: radial-gradient(circle,rgba(26, 27, 37, 1) 5%, rgba(44, 44, 44, 1) 33%, rgba(112, 193, 179, 1) 69%, rgba(255, 179, 71, 1) 100%); */
+  background: radial-gradient(circle, #FDBB2D 0%, #22C1C3 100%);
   border-radius: 12px;
   cursor: crosshair;
   box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
@@ -27,14 +28,14 @@
 
 .xy-cursor {
   position: absolute;
-  width: 20px;
-  height: 20px;
-  background: white;
+  width: 30px;
+  height: 30px;
+  /* background: rgba(44, 44, 44, 0.4); */
+  border: 6px solid rgba(14, 182, 198, 0.6);
   border-radius: 50%;
   transform: translate(-50%, -50%);
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
+  box-shadow: 0 0px 15px rgba(18, 235, 255, 0.6);
   pointer-events: none;
-  transition: box-shadow 0.1s ease;
 }
 
 .xy-pad:active .xy-cursor {
