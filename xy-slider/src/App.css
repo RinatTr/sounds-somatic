@@ -5,38 +5,61 @@
   text-align: center;
 }
 
-.logo {
-  height: 6em;
-  padding: 1.5em;
-  will-change: filter;
-  transition: filter 300ms;
-}
-.logo:hover {
-  filter: drop-shadow(0 0 2em #646cffaa);
-}
-.logo.react:hover {
-  filter: drop-shadow(0 0 2em #61dafbaa);
+.controller-wrapper {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 2rem;
 }
 
-@keyframes logo-spin {
-  from {
-    transform: rotate(0deg);
-  }
-  to {
-    transform: rotate(360deg);
-  }
+.label-top,
+.label-bottom {
+  font-size: 1.5rem;
+  font-weight: 600;
+  color: #667eea;
+  letter-spacing: 0.1em;
 }
 
-@media (prefers-reduced-motion: no-preference) {
-  a:nth-of-type(2) .logo {
-    animation: logo-spin infinite 20s linear;
-  }
+.arrow-container {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 400px;
+  height: 400px;
 }
 
-.card {
-  padding: 2em;
+.arrow {
+  position: absolute;
+  font-size: 2rem;
+  color: #667eea;
+  opacity: 0.7;
+  transition: all 0.3s ease;
 }
 
-.read-the-docs {
-  color: #888;
+.arrow-up {
+  top: 5px;
+  left: 50%;
+  transform: translateX(-50%);
 }
+
+.arrow-down {
+  bottom: 5px;
+  left: 50%;
+  transform: translateX(-50%);
+}
+
+.arrow-left {
+  left: 5px;
+  top: 50%;
+  transform: translateY(-50%);
+}
+
+.arrow-right {
+  right: 5px;
+  top: 50%;
+  transform: translateY(-50%);
+}
+
+
+
