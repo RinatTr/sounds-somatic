@@ -38,25 +38,25 @@
 }
 
 .arrow-up {
-  top: 5px;
+  top: 5%;
   left: 50%;
   transform: translateX(-50%);
 }
 
 .arrow-down {
-  bottom: 5px;
+  bottom: 5%;
   left: 50%;
   transform: translateX(-50%);
 }
 
 .arrow-left {
-  left: 5px;
+  left: 5%;
   top: 50%;
   transform: translateY(-50%);
 }
 
 .arrow-right {
-  right: 5px;
+  right: 5%;
   top: 50%;
   transform: translateY(-50%);
 }
