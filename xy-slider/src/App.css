@@ -16,7 +16,7 @@
 .label-bottom {
   font-size: 1.5rem;
   font-weight: 600;
-  color: #667eea;
+  color: rgba(14, 182, 198, 0.6);
   letter-spacing: 0.1em;
 }
 
@@ -32,7 +32,7 @@
 .arrow {
   position: absolute;
   font-size: 1.2rem;
-  color: #667eea;
+  color: rgba(14, 182, 198, 0.6);
   opacity: 0.4;
   transition: opacity 0.3s ease;
   pointer-events: none;

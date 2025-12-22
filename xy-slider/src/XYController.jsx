@@ -1,8 +1,10 @@
 import { useState, useRef } from 'react'
 import './XYController.css'
+import AudioEngine from './AudioEngine'
 
 function XYController() {
   const [position, setPosition] = useState({ x: 50, y: 50 })
+  const [isActive, setIsActive] = useState(false)
   const padRef = useRef(null)
 
 //   const handleMouseMove = (e) => {
@@ -28,44 +30,38 @@ function XYController() {
     })
   }
 
-//   const handleMouseDown = () => {
-//     window.addEventListener('mousemove', handleMouseMove)
-//     window.addEventListener('mouseup', handleMouseUp)
-//   }
-
-//   const handleMouseUp = () => {
-//     window.removeEventListener('mousemove', handleMouseMove)
-//     window.removeEventListener('mouseup', handleMouseUp)
-//   }
-
   const handleTouchStart = () => {
+    setIsActive(true)
     window.addEventListener('touchmove', handleTouchMove)
     window.addEventListener('touchend', handleTouchEnd)
   }
 
   const handleTouchEnd = () => {
+    setIsActive(false)
     window.removeEventListener('touchmove', handleTouchMove)
     window.removeEventListener('touchend', handleTouchEnd)
   }
   console.clear();
   console.log({ x: position.x.toFixed(1), y: position.y.toFixed(1) });
   return (
-    <div className="xy-controller">
-      <div
-        ref={padRef}
-        className="xy-pad"
-        // onMouseDown={handleMouseDown}
-        onTouchStart={handleTouchStart}
-      >
+    <>
+      <AudioEngine position={position} isActive={isActive} />
+      <div className="xy-controller">
         <div
-          className="xy-cursor"
-          style={{
-            left: `${position.x}%`,
-            top: `${position.y}%`
-          }}
-        />
+          ref={padRef}
+          className="xy-pad"
+          onTouchStart={handleTouchStart}
+        >
+          <div
+            className="xy-cursor"
+            style={{
+              left: `${position.x}%`,
+              top: `${position.y}%`
+            }}
+          />
+        </div>
       </div>
-    </div>
+    </>
   )
 }
 
