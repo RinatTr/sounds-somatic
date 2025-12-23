@@ -13,7 +13,7 @@ function SpatialAudioEngine({ position, isActive }) {
 
     const filter = new Tone.Filter({
       type: 'highpass',
-      frequency: 100
+      frequency: 10
     }).connect(master)
 
     const chorus = new Tone.Chorus({
@@ -28,7 +28,7 @@ function SpatialAudioEngine({ position, isActive }) {
     const polySynth = new Tone.PolySynth(Tone.Synth, {
       oscillator: { type: 'triangle8' },
       envelope: {
-        attack: 0.02,
+        attack: 0.1,
         decay: 0.25,
         sustain: 0.7,
         release: 0.8
@@ -46,10 +46,18 @@ function SpatialAudioEngine({ position, isActive }) {
     lfoDepth.connect(filter.frequency)
     lfo.start()
 
+    const dist = new Tone.Distortion(0.5)
+    const distGain = new Tone.Gain(0)
+    dist.connect(distGain)
+    distGain.connect(filter)
+    polySynth.connect(dist)
+
+
     engineRef.current = {
       polySynth,
       chorus,
       filter,
+      distGain,
       noiseGain,
       lfo,
       lfoDepth,
@@ -61,6 +69,8 @@ function SpatialAudioEngine({ position, isActive }) {
       chorus.dispose()
       noise.dispose()
       noiseGain.dispose()
+      dist.dispose()
+      distGain.dispose()
       lfo.dispose()
       lfoDepth.dispose()
       filter.dispose()
@@ -70,41 +80,6 @@ function SpatialAudioEngine({ position, isActive }) {
   }, [])
 
   // ---------- start / stop ----------
-//   useEffect(() => {
-//     const engine = engineRef.current
-//     if (!engine) return
-
-//     const token = ++startTokenRef.current
-
-//     const start = async () => {
-//       // Ensure audio context is *actually* running
-//       if (Tone.context.state !== 'running') {
-//         await Tone.start()
-//       }
-
-//       // Abort if a newer start/stop happened
-//       if (token !== startTokenRef.current) return
-
-//       if (!engine.isPlaying) {
-//         engine.polySynth.triggerAttack(ACTIVE_NOTES[0])
-//         engine.isPlaying = true
-//       }
-//     }
-
-//     const stop = () => {
-//       // invalidate pending start
-//       startTokenRef.current++
-
-//       if (engine.isPlaying) {
-//         engine.polySynth.triggerRelease(ACTIVE_NOTES[0])
-//         engine.isPlaying = false
-//       }
-//     }
-
-//     if (isActive) start()
-//     else stop()
-//   }, [isActive])
-
   useEffect(() => {
   const engine = engineRef.current
   if (!engine) return
@@ -152,26 +127,39 @@ function SpatialAudioEngine({ position, isActive }) {
 
     // UP → high-pass
     const up = y < 50 ? (50 - y) / 50 : 0
-    const hp = 100 * Math.pow(40, up) // 100 → 4000
+    const hp = 10 * Math.pow(30, up) // 10 → 3000
     engine.filter.frequency.rampTo(hp, 0.08)
 
-    // Noise (Y <= 75)
+    // Noise (Y <= 10)
     let noiseTarget = 0
-    if (isActive && y <= 75) {
-    const noiseNorm = (75 - y) / 75
-    noiseTarget = noiseNorm * 0.25
+    if (isActive && y <= 10) {
+    const noiseNorm = (10 - y) / 10
+    noiseTarget = noiseNorm * 0.02
     }
     engine.noiseGain.gain.rampTo(noiseTarget, 0.08)
 
+    // Dist (Y <= 10)
+    let distTarget = 0
+    if (isActive && y <= 10) {
+    const distNorm = (10 - y) / 10
+    distTarget = distNorm * 0.3
+    }
+    engine.distGain.gain.rampTo(distTarget, 0.08)
+
     // LFO (left/right)
     const dx = Math.abs(x - 50) / 50
-    engine.lfo.frequency.rampTo(dx * 8, 0.06)
-    engine.lfoDepth.gain.rampTo(dx * 1200, 0.06)
+    const rate = dx ** 1.4
+    const depth = Math.sqrt(dx)
+    engine.lfo.frequency.rampTo(rate * 6, 0.08)
+    engine.lfoDepth.gain.rampTo(depth * 25, 0.08)
+
 
     // DOWN → chorus
     const down = y > 50 ? (y - 50) / 50 : 0
-    engine.chorus.wet.rampTo(down * 0.6, 0.08)
-    engine.chorus.depth = 0.1 + down * 0.7
+
+    engine.chorus.wet.rampTo(down * 0.6, 0.1)
+        // depth saturates early, stays shallow
+    engine.chorus.depth = 0.02 + Math.sqrt(down) * 0.06
   }, [position, isActive])
 
   return null
