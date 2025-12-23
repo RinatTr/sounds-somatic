@@ -18,9 +18,17 @@ function XYController() {
 //     })
 //   }
 
+  const handleTouchStart = (e) => {
+  e.preventDefault()
+  setIsActive(true)
+}
+
   const handleTouchMove = (e) => {
+    e.preventDefault()
+
     const rect = padRef.current.getBoundingClientRect()
     const touch = e.touches[0]
+
     const x = ((touch.clientX - rect.left) / rect.width) * 100
     const y = ((touch.clientY - rect.top) / rect.height) * 100
 
@@ -30,18 +38,11 @@ function XYController() {
     })
   }
 
-  const handleTouchStart = () => {
-    setIsActive(true)
-    window.addEventListener('touchmove', handleTouchMove)
-    window.addEventListener('touchend', handleTouchEnd)
+  const handleTouchEnd = (e) => {
+    e.preventDefault()
+    setIsActive(false)
   }
 
-  const handleTouchEnd = () => {
-    console.log
-    setIsActive(false)
-    window.removeEventListener('touchmove', handleTouchMove)
-    window.removeEventListener('touchend', handleTouchEnd)
-  }
   console.clear();
   console.log({ x: position.x.toFixed(1), y: position.y.toFixed(1) });
   return (
@@ -52,6 +53,9 @@ function XYController() {
           ref={padRef}
           className="xy-pad"
           onTouchStart={handleTouchStart}
+          onTouchMove={handleTouchMove}
+          onTouchEnd={handleTouchEnd}
+          onContextMenu={(e) => e.preventDefault()}
         >
           <div
             className="xy-cursor"
