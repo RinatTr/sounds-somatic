@@ -7,30 +7,19 @@ function XYController() {
   const [isActive, setIsActive] = useState(false)
   const padRef = useRef(null)
 
-//   const handleMouseMove = (e) => {
-//     const rect = padRef.current.getBoundingClientRect()
-//     const x = ((e.clientX - rect.left) / rect.width) * 100
-//     const y = ((e.clientY - rect.top) / rect.height) * 100
+  const handlePointerDown = (e) => {
+    e.preventDefault()
+    padRef.current.setPointerCapture(e.pointerId)
+    setIsActive(true)
+  }
 
-//     setPosition({
-//       x: Math.max(0, Math.min(100, x)),
-//       y: Math.max(0, Math.min(100, y))
-//     })
-//   }
-
-  const handleTouchStart = (e) => {
-  e.preventDefault()
-  setIsActive(true)
-}
-
-  const handleTouchMove = (e) => {
+  const handlePointerMove = (e) => {
+    if (!isActive) return
     e.preventDefault()
 
     const rect = padRef.current.getBoundingClientRect()
-    const touch = e.touches[0]
-
-    const x = ((touch.clientX - rect.left) / rect.width) * 100
-    const y = ((touch.clientY - rect.top) / rect.height) * 100
+    const x = ((e.clientX - rect.left) / rect.width) * 100
+    const y = ((e.clientY - rect.top) / rect.height) * 100
 
     setPosition({
       x: Math.max(0, Math.min(100, x)),
@@ -38,10 +27,12 @@ function XYController() {
     })
   }
 
-  const handleTouchEnd = (e) => {
+  const handlePointerUp = (e) => {
     e.preventDefault()
+    padRef.current.releasePointerCapture(e.pointerId)
     setIsActive(false)
   }
+
 
   console.clear();
   console.log({ x: position.x.toFixed(1), y: position.y.toFixed(1) });
@@ -52,11 +43,12 @@ function XYController() {
         <div
           ref={padRef}
           className="xy-pad"
-          onTouchStart={handleTouchStart}
-          onTouchMove={handleTouchMove}
-          onTouchEnd={handleTouchEnd}
+          onPointerDown={handlePointerDown}
+          onPointerMove={handlePointerMove}
+          onPointerUp={handlePointerUp}
+          onPointerCancel={handlePointerUp}
           onContextMenu={(e) => e.preventDefault()}
-        >
+          >
           <div
             className="xy-cursor"
             style={{
