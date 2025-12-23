@@ -181,8 +181,8 @@ function SpatialAudioEngine({ position, isActive }) {
     const dx = Math.abs(x - 50) / 50
 
     // vibration rate (felt, not heard as wobble)
-    const vibeRate = dx ** 1.4 * 20   // 0 → ~20 Hz
-    const vibeDepth = dx * 0.1      // very small
+    const vibeRate = dx ** 1.4 * 14   // 0 → ~20 Hz
+    const vibeDepth = dx * 0.5     // very small
 
     engine.lfo.frequency.rampTo(vibeRate, 0.1)
     engine.vibeDepth.gain.rampTo(vibeDepth, 0.12)
