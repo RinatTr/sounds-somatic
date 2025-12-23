@@ -35,7 +35,7 @@ function XYController() {
 
 
   console.clear();
-  console.log({ x: position.x.toFixed(1), y: position.y.toFixed(1) });
+  console.log({ x: position.x.toFixed(), y: position.y.toFixed() });
   return (
     <>
       <SpatialAudioEngine position={position} isActive={isActive} />
