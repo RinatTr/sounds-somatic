@@ -13,7 +13,7 @@ function SpatialAudioEngine({ position, isActive }) {
 
     const filter = new Tone.Filter({
       type: 'highpass',
-      frequency: 10
+      frequency: 100
     }).connect(master)
 
     const chorus = new Tone.Chorus({
@@ -31,7 +31,7 @@ function SpatialAudioEngine({ position, isActive }) {
         attack: 0.1,
         decay: 0.25,
         sustain: 0.7,
-        release: 0.8
+        release: 0.3
       }
     }).connect(chorus)
 
@@ -43,8 +43,11 @@ function SpatialAudioEngine({ position, isActive }) {
     const lfo = new Tone.LFO({ frequency: 0, min: -1, max: 1 })
     const lfoDepth = new Tone.Gain(0)
     lfo.connect(lfoDepth)
-    lfoDepth.connect(filter.frequency)
     lfo.start()
+
+    const vibeDepth = new Tone.Gain(0)
+    lfo.connect(vibeDepth)
+    vibeDepth.connect(master.gain)
 
     const dist = new Tone.Distortion(0.5)
     const distGain = new Tone.Gain(0)
@@ -61,6 +64,7 @@ function SpatialAudioEngine({ position, isActive }) {
       noiseGain,
       lfo,
       lfoDepth,
+      vibeDepth,
       isPlaying: false
     }
 
@@ -73,6 +77,7 @@ function SpatialAudioEngine({ position, isActive }) {
       distGain.dispose()
       lfo.dispose()
       lfoDepth.dispose()
+      vibeDepth.dispose()
       filter.dispose()
       master.dispose()
       engineRef.current = null
@@ -148,10 +153,13 @@ function SpatialAudioEngine({ position, isActive }) {
 
     // LFO (left/right)
     const dx = Math.abs(x - 50) / 50
-    const rate = dx ** 1.4
-    const depth = Math.sqrt(dx)
-    engine.lfo.frequency.rampTo(rate * 6, 0.08)
-    engine.lfoDepth.gain.rampTo(depth * 25, 0.08)
+
+    // vibration rate (felt, not heard as wobble)
+    const vibeRate = dx ** 1.4 * 16   // 0 → ~16 Hz
+    const vibeDepth = dx * 0.05       // very small
+
+    engine.lfo.frequency.rampTo(vibeRate, 0.1)
+    engine.vibeDepth.gain.rampTo(vibeDepth, 0.12)
 
 
     // DOWN → chorus
