@@ -12,7 +12,7 @@ function SpatialAudioEngine({ position, isActive }) {
   // ---------- build graph once ----------
 
   useEffect(() => {
-  const output = new Tone.Gain(0.5).toDestination()
+  const output = new Tone.Gain(0.7).toDestination()
 
   const filter = new Tone.Filter({
     type: 'highpass',
@@ -23,7 +23,7 @@ function SpatialAudioEngine({ position, isActive }) {
   chorus.start()
 
   const reverb = new Tone.Reverb({
-    decay: 0.5,
+    decay: 0.8,
     wet: 0.5
   })
 
@@ -34,7 +34,7 @@ function SpatialAudioEngine({ position, isActive }) {
   })
 
   const polySynth = new Tone.PolySynth(Tone.Synth, {
-    oscillator: { type: 'triangle8' },
+    oscillator: { type: 'triangle8', detune: 3 },
     envelope: {
       attack: 0.1,
       decay: 0.25,
@@ -46,8 +46,8 @@ function SpatialAudioEngine({ position, isActive }) {
   // MAIN SIGNAL CHAIN
   polySynth.chain(
     eq,
-    chorus,
     filter,
+    chorus,
     reverb,
     output
   )
@@ -157,7 +157,7 @@ function SpatialAudioEngine({ position, isActive }) {
     // UP → high-pass
     const up = y < 40 ? (40 - y) / 40 : 0
     if (isActive && y <= 40) {
-      const hp = HP_MIN * Math.pow(30, up) // 10 → 3000
+      const hp = HP_MIN * Math.pow(20, up) // HP_MIN → 3000
       engine.filter.frequency.rampTo(hp, 0.08)
     }
 
@@ -173,7 +173,7 @@ function SpatialAudioEngine({ position, isActive }) {
     let distTarget = 0
     if (isActive && y <= 10) {
     const distNorm = (10 - y) / 10
-    distTarget = distNorm * 0.7
+    distTarget = distNorm * 0.8
     }
     engine.distGain.gain.rampTo(distTarget, 0.08)
 
@@ -190,10 +190,10 @@ function SpatialAudioEngine({ position, isActive }) {
 
     // DOWN → chorus
     const down = y > 50 ? (y - 50) / 50 : 0
+    engine.chorus.wet.rampTo(0.15 + down * 0.6, 0.1)
+    engine.chorus.depth = 1 + Math.sqrt(down) * 0.1
+   console.log("chorus:", engine.chorus)
 
-    engine.chorus.wet.rampTo(down * 0.6, 0.1)
-        // depth saturates early, stays shallow
-    engine.chorus.depth = 0.02 + Math.sqrt(down) * 0.06
   }, [position, isActive])
 
   return null
