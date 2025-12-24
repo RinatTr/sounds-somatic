@@ -31,13 +31,13 @@
 
 .xy-cursor {
   position: absolute;
-  width: 30px;
-  height: 30px;
+  width: 60px;
+  height: 60px;
   /* background: rgba(44, 44, 44, 0.4); */
   border: 6px solid rgba(14, 182, 198, 0.6);
   border-radius: 50%;
   transform: translate(-50%, -50%);
-  box-shadow: 0 0px 15px rgba(18, 235, 255, 0.6);
+  box-shadow: 0 0px 30px rgba(18, 235, 255, 0.6);
   pointer-events: none;
 }
 

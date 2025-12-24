@@ -187,7 +187,6 @@ function SpatialAudioEngine({ position, isActive }) {
     engine.lfo.frequency.rampTo(vibeRate, 0.1)
     engine.vibeDepth.gain.rampTo(vibeDepth, 0.12)
 
-
     // DOWN → chorus
     const down = y > 50 ? (y - 50) / 50 : 0
     engine.chorus.wet.rampTo(0.15 + down * 0.6, 0.1)
