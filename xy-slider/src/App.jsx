@@ -6,17 +6,17 @@ function App() {
     <>
       <div className="container">
         <div className="controller-wrapper">
-          <div className="label-top">Intense</div>
-          
           <div className="arrow-container">
             <div className="arrow arrow-up">▲</div>
+            <div className="label-side label-left">MOTION</div>
             <div className="arrow arrow-left">◀</div>
             <XYController />
             <div className="arrow arrow-right">▶</div>
+            <div className="label-side label-right">MOTION</div>
             <div className="arrow arrow-down">▼</div>
+            <div className="label-pad label-top">INTENSE</div>
+            <div className="label-pad label-bottom">EXPANSIVE</div>
           </div>
-          
-          <div className="label-bottom">Expansive</div>
         </div>
       </div>
     </>

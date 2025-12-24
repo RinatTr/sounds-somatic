@@ -29,12 +29,60 @@
   height: 340px;
 }
 
+/* Pad Edge Labels (Top & Bottom) */
+.label-pad {
+  position: absolute;
+  font-size: 0.7rem;
+  font-weight: 700;
+  letter-spacing: 0.15em;
+  color: rgba(14, 182, 198, 0.5);
+  text-transform: uppercase;
+  pointer-events: none;
+}
+
+.label-pad.label-top {
+  top: 12px;
+  left: 50%;
+  transform: translateX(-50%);
+}
+
+.label-pad.label-bottom {
+  bottom: 12px;
+  left: 50%;
+  transform: translateX(-50%);
+}
+
+/* Side Labels (Left & Right) */
+.label-side {
+  position: absolute;
+  font-size: 0.7rem;
+  font-weight: 700;
+  letter-spacing: 0.15em;
+  color: rgba(14, 182, 198, 0.5);
+  text-transform: uppercase;
+  pointer-events: none;
+  writing-mode: vertical-rl;
+  text-orientation: mixed;
+}
+
+.label-side.label-left {
+  left: 12px;
+  top: 50%;
+  transform: translateY(-50%) rotateZ(180deg);
+}
+
+.label-side.label-right {
+  right: 12px;
+  top: 50%;
+  transform: translateY(-50%);
+}
+
 .arrow {
   position: absolute;
   font-size: 1.2rem;
   color: rgba(14, 182, 198, 0.6);
-  opacity: 0.4;
-  transition: opacity 0.3s ease;
+  opacity: 0.05;
+  /* transition: opacity 0.3s ease; */
   pointer-events: none;
 }
 
@@ -61,10 +109,5 @@
   top: 50%;
   transform: translateY(-50%);
 }
-
-.arrow-container:hover .arrow {
-  opacity: 0.6;
-}
-
 
 
