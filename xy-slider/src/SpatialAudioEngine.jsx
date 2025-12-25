@@ -14,6 +14,12 @@ function SpatialAudioEngine({ position, isActive }) {
   useEffect(() => {
   const output = new Tone.Gain(0.7).toDestination()
 
+  const pressureFilter = new Tone.Filter({
+    type: 'bandpass',
+    frequency: 800,   // center of “body pressure”
+    Q: 0.6            // relaxed by default
+  })
+
   const filter = new Tone.Filter({
     type: 'highpass',
     frequency: HP_MIN
@@ -46,6 +52,7 @@ function SpatialAudioEngine({ position, isActive }) {
   // MAIN SIGNAL CHAIN
   polySynth.chain(
     eq,
+    pressureFilter,
     filter,
     chorus,
     reverb,
@@ -77,6 +84,7 @@ function SpatialAudioEngine({ position, isActive }) {
   engineRef.current = {
     polySynth,
     eq,
+    pressureFilter,
     chorus,
     reverb,
     filter,
@@ -90,9 +98,10 @@ function SpatialAudioEngine({ position, isActive }) {
   return () => {
     polySynth.dispose()
     eq.dispose()
+    pressureFilter.dispose()
+    filter.dispose()
     chorus.dispose()
     reverb.dispose()
-    filter.dispose()
     dist.dispose()
     distGain.dispose()
     noise.dispose()
@@ -177,12 +186,12 @@ function SpatialAudioEngine({ position, isActive }) {
     }
     engine.distGain.gain.rampTo(distTarget, 0.08)
 
-    // LFO (left/right)
-    const dx = Math.abs(x - 50) / 50
+    // LFO (/right)
+    const right = x > 50 ? (x - 50) / 50 : 0
 
     // vibration rate (felt, not heard as wobble)
-    const vibeRate = dx ** 1.4 * 14   // 0 → ~20 Hz
-    const vibeDepth = dx * 0.5     // very small
+    const vibeRate = right ** 1.4 * 14   // 0 → ~20 Hz
+    const vibeDepth = right * 0.5     // very small
 
     engine.lfo.frequency.rampTo(vibeRate, 0.1)
     engine.vibeDepth.gain.rampTo(vibeDepth, 0.12)
@@ -191,7 +200,13 @@ function SpatialAudioEngine({ position, isActive }) {
     const down = y > 50 ? (y - 50) / 50 : 0
     engine.chorus.wet.rampTo(0.15 + down * 0.6, 0.1)
     engine.chorus.depth = 1 + Math.sqrt(down) * 0.5
-    console.log("chorus:", engine.chorus)
+
+    // LEFT → body pressure (bandpass Q)
+    const left = x < 50 ? (50 - x) / 50 : 0
+    const minQ = 0.6   // relaxed
+    const maxQ = 18    // very tight / constricted
+    const targetQ = minQ + left ** 1.3 * (maxQ - minQ)
+    engine.pressureFilter.Q.rampTo(targetQ, 0.1)
 
   }, [position, isActive])
 

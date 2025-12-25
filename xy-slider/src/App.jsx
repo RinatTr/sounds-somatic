@@ -8,7 +8,7 @@ function App() {
         <div className="controller-wrapper">
           <div className="arrow-container">
             <div className="arrow arrow-up">▲</div>
-            <div className="label-side label-left">MOTION</div>
+            <div className="label-side label-left">TIGHT</div>
             <div className="arrow arrow-left">◀</div>
             <XYController />
             <div className="arrow arrow-right">▶</div>
