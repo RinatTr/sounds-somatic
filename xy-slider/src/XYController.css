@@ -18,7 +18,7 @@
   height: 300px;
   /* background: #00D4FF; */
   /* background: radial-gradient(circle,rgba(26, 27, 37, 1) 5%, rgba(44, 44, 44, 1) 33%, rgba(112, 193, 179, 1) 69%, rgba(255, 179, 71, 1) 100%); */
-  background: radial-gradient(circle, #FDBB2D 0%, #22C1C3 100%);
+  background: radial-gradient(circle, #ffd477 0%, #22C1C3 100%);
   border-radius: 12px;
   cursor: crosshair;
   box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);

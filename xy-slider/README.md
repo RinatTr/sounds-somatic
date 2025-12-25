@@ -7,4 +7,9 @@ Axis coordinate map:
         Top: (50, 0)
         Bottom: (50, 100)
 
-        
+//Todo:
+Descriptive map of coordinates to effect ranges.
+        research appropriate effect levels.
+Replace fader math with getFaderCurve
+
+     

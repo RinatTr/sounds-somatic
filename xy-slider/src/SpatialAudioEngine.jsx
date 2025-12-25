@@ -60,7 +60,7 @@ function SpatialAudioEngine({ position, isActive }) {
   lfo.start()
 
   // --- DISTORTION (parallel) ---
-  const dist = new Tone.Distortion(0.7)
+  const dist = new Tone.Distortion(0.5)
   const distGain = new Tone.Gain(0)
   polySynth.connect(dist)
   dist.chain(distGain, filter)
@@ -190,8 +190,8 @@ function SpatialAudioEngine({ position, isActive }) {
     // DOWN → chorus
     const down = y > 50 ? (y - 50) / 50 : 0
     engine.chorus.wet.rampTo(0.15 + down * 0.6, 0.1)
-    engine.chorus.depth = 1 + Math.sqrt(down) * 0.1
-   console.log("chorus:", engine.chorus)
+    engine.chorus.depth = 1 + Math.sqrt(down) * 0.5
+    console.log("chorus:", engine.chorus)
 
   }, [position, isActive])
 
