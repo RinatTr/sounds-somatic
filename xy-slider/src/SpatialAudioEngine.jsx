@@ -1,213 +1,210 @@
 import { useEffect, useRef } from 'react'
 import * as Tone from 'tone'
 
-const ACTIVE_NOTES = [100] // B
-const HP_MIN = 50 // min high-pass frequency
-const CHORUS_MIN = { frequency: 0.5, delayTime: 2.5, depth: 0.2, feedback: 0, wet: 0 }
+const ACTIVE_NOTES = [100]
+const HP_MIN = 50
+const CHORUS_MIN = {
+  frequency: 0.5,
+  delayTime: 2.5,
+  depth: 0.2,
+  feedback: 0,
+  wet: 0
+}
 
 function SpatialAudioEngine({ position, isActive }) {
   const engineRef = useRef(null)
   const startTokenRef = useRef(0)
 
   // ---------- build graph once ----------
-
   useEffect(() => {
-  const output = new Tone.Gain(0.7).toDestination()
+    const output = new Tone.Gain(0.7).toDestination()
 
-  const pressureFilter = new Tone.Filter({
-    type: 'bandpass',
-    frequency: 800,   // center of “body pressure”
-    Q: 0.6            // relaxed by default
-  })
+    // ---------- CORE VOICE ----------
+    const polySynth = new Tone.PolySynth(Tone.Synth, {
+      oscillator: { type: 'triangle8', detune: 3 },
+      envelope: {
+        attack: 0.1,
+        decay: 0.25,
+        sustain: 0.7,
+        release: 0.3
+      }
+    })
 
-  const filter = new Tone.Filter({
-    type: 'highpass',
-    frequency: HP_MIN
-  })
+    const eq = new Tone.EQ3({
+      low: -5,
+      mid: -8,
+      high: 0
+    })
 
-  const chorus = new Tone.Chorus(CHORUS_MIN)
-  chorus.start()
+    const highpass = new Tone.Filter({
+      type: 'highpass',
+      frequency: HP_MIN
+    })
 
-  const reverb = new Tone.Reverb({
-    decay: 0.8,
-    wet: 0.5
-  })
+    const chorus = new Tone.Chorus(CHORUS_MIN)
+    chorus.start()
 
-  const eq = new Tone.EQ3({
-    low: -5,
-    mid: -8,
-    high: 0
-  })
+    const reverb = new Tone.Reverb({
+      decay: 0.8,
+      wet: 0.5
+    })
 
-  const polySynth = new Tone.PolySynth(Tone.Synth, {
-    oscillator: { type: 'triangle8', detune: 3 },
-    envelope: {
-      attack: 0.1,
-      decay: 0.25,
-      sustain: 0.7,
-      release: 0.3
+    // ---------- OPEN PATH (center + right) ----------
+    const openGain = new Tone.Gain(1)
+
+    polySynth.chain(
+      eq,
+      highpass,
+      chorus,
+      reverb,
+      openGain,
+      output
+    )
+
+    // ---------- PRESSURE PATH (left) ----------
+    const pressureFilter = new Tone.Filter({
+      type: 'bandpass',
+      frequency: 650,
+      Q: 0.6
+    })
+
+    const pressureGain = new Tone.Gain(0)
+    const pressureDrive = new Tone.Distortion(0.10)
+
+    polySynth.chain(
+      eq,
+      pressureFilter,
+      pressureDrive,
+      pressureGain,
+      highpass,
+      chorus,
+      reverb,
+      output
+    )
+
+    // ---------- MOTION (RIGHT ONLY) ----------
+    const lfo = new Tone.LFO({ frequency: 0, min: -1, max: 1 })
+    const vibeDepth = new Tone.Gain(0)
+    lfo.connect(vibeDepth)
+    vibeDepth.connect(output.gain)
+    lfo.start()
+
+    // ---------- DISTORTION (parallel, respects pressure) ----------
+    const dist = new Tone.Distortion(0.5)
+    const distGain = new Tone.Gain(0)
+
+    polySynth.connect(dist)
+    dist.chain(distGain, pressureFilter)
+    distGain.connect(highpass)
+
+    // ---------- NOISE (parallel, respects pressure) ----------
+    const noise = new Tone.Noise('pink')
+    const noiseGain = new Tone.Gain(0)
+
+    noise.chain(noiseGain, pressureFilter)
+    noiseGain.connect(highpass)
+    noise.start()
+
+    reverb.generate()
+
+    engineRef.current = {
+      polySynth,
+      eq,
+      highpass,
+      chorus,
+      reverb,
+      openGain,
+      pressureFilter,
+      pressureGain,
+      distGain,
+      noiseGain,
+      lfo,
+      vibeDepth,
+      isPlaying: false
     }
-  })
 
-  // MAIN SIGNAL CHAIN
-  polySynth.chain(
-    eq,
-    pressureFilter,
-    filter,
-    chorus,
-    reverb,
-    output
-  )
-
-  // --- VIBE (amplitude micro-motion) ---
-  const lfo = new Tone.LFO({ frequency: 0, min: -1, max: 1 })
-  const vibeDepth = new Tone.Gain(0)
-  lfo.connect(vibeDepth)
-  vibeDepth.connect(output.gain)
-  lfo.start()
-
-  // --- DISTORTION (parallel) ---
-  const dist = new Tone.Distortion(0.5)
-  const distGain = new Tone.Gain(0)
-  polySynth.connect(dist)
-  dist.chain(distGain, filter)
-
-  // --- NOISE (parallel) ---
-  const noise = new Tone.Noise('pink')
-  const noiseGain = new Tone.Gain(0)
-  noise.chain(noiseGain, filter)
-  noise.start()
-
-  // generate reverb *after* context unlock
-  reverb.generate()
-
-  engineRef.current = {
-    polySynth,
-    eq,
-    pressureFilter,
-    chorus,
-    reverb,
-    filter,
-    distGain,
-    noiseGain,
-    lfo,
-    vibeDepth,
-    isPlaying: false
-  }
-
-  return () => {
-    polySynth.dispose()
-    eq.dispose()
-    pressureFilter.dispose()
-    filter.dispose()
-    chorus.dispose()
-    reverb.dispose()
-    dist.dispose()
-    distGain.dispose()
-    noise.dispose()
-    noiseGain.dispose()
-    lfo.dispose()
-    vibeDepth.dispose()
-    output.dispose()
-    engineRef.current = null
-  }
-}, [])
-
+    return () => {
+      Object.values(engineRef.current || {}).forEach(n => n?.dispose?.())
+      output.dispose()
+      engineRef.current = null
+    }
+  }, [])
 
   // ---------- start / stop ----------
   useEffect(() => {
-  const engine = engineRef.current
-  if (!engine) return
+    const engine = engineRef.current
+    if (!engine) return
 
-  const token = ++startTokenRef.current
+    const token = ++startTokenRef.current
 
-  const start = async () => {
-    const context = Tone.getContext()
+    const start = async () => {
+      if (Tone.getContext().state !== 'running') {
+        await Tone.start()
+      }
+      if (token !== startTokenRef.current) return
 
-    if (context.state !== 'running') {
-      await Tone.start()
+      if (!engine.isPlaying) {
+        engine.polySynth.triggerAttack(ACTIVE_NOTES[0])
+        engine.isPlaying = true
+      }
     }
 
-    // abort if a newer toggle happened
-    if (token !== startTokenRef.current) return
-
-    if (!engine.isPlaying) {
-      engine.polySynth.triggerAttack(ACTIVE_NOTES[0])
-      engine.isPlaying = true
+    const stop = () => {
+      startTokenRef.current++
+      if (engine.isPlaying) {
+        engine.polySynth.triggerRelease(ACTIVE_NOTES[0])
+        engine.isPlaying = false
+      }
     }
-  }
 
-  const stop = () => {
-    // invalidate any pending start
-    startTokenRef.current++
-
-    if (engine.isPlaying) {
-      engine.polySynth.triggerRelease(ACTIVE_NOTES[0])
-      engine.isPlaying = false
-    }
-  }
-
-  if (isActive) start()
-  else stop()
-}, [isActive])
+    isActive ? start() : stop()
+  }, [isActive])
 
   // ---------- spatial mapping ----------
   useEffect(() => {
-     const engine = engineRef.current
-
+    const engine = engineRef.current
     if (!engine) return
 
-    console.log("noiseGain:", engine.noiseGain.gain.value.toFixed(4), "distGain:", engine.distGain.gain.value.toFixed(4), "filterFreq:", engine.filter.frequency.value.toFixed(1), "lfoFreq:", engine.lfo.frequency.value.toFixed(2), "lfoDepth:", engine.vibeDepth.gain.value.toFixed(4), "chorusWet:", engine.chorus.wet.value.toFixed(3));
-
-    const clamp = (v) => Math.max(0, Math.min(100, v))
+    const clamp = v => Math.max(0, Math.min(100, v))
     const x = clamp(position.x)
     const y = clamp(position.y)
 
     // UP → high-pass
-    const up = y < 40 ? (40 - y) / 40 : 0
     if (isActive && y <= 40) {
-      const hp = HP_MIN * Math.pow(20, up) // HP_MIN → 3000
-      engine.filter.frequency.rampTo(hp, 0.08)
+      const up = (40 - y) / 40
+      const hp = HP_MIN * Math.pow(20, up)
+      engine.highpass.frequency.rampTo(hp, 0.08)
     }
 
     // Noise (Y <= 10)
-    let noiseTarget = 0
-    if (isActive && y <= 10) {
-    const noiseNorm = (10 - y) / 10
-    noiseTarget = noiseNorm * 0.05
-    }
-    engine.noiseGain.gain.rampTo(noiseTarget, 0.04)
+    const noise = isActive && y <= 10 ? ((10 - y) / 10) * 0.05 : 0
+    engine.noiseGain.gain.rampTo(noise, 0.04)
 
-    // Dist (Y <= 10)
-    let distTarget = 0
-    if (isActive && y <= 10) {
-    const distNorm = (10 - y) / 10
-    distTarget = distNorm * 0.8
-    }
-    engine.distGain.gain.rampTo(distTarget, 0.08)
+    // Distortion (Y <= 10)
+    const dist = isActive && y <= 10 ? ((10 - y) / 10) * 0.8 : 0
+    engine.distGain.gain.rampTo(dist, 0.08)
 
-    // LFO (/right)
+    // ---------- RIGHT → motion ----------
     const right = x > 50 ? (x - 50) / 50 : 0
+    engine.lfo.frequency.rampTo(right ** 1.4 * 14, 0.1)
+    engine.vibeDepth.gain.rampTo(right * 0.5, 0.12)
 
-    // vibration rate (felt, not heard as wobble)
-    const vibeRate = right ** 1.4 * 14   // 0 → ~20 Hz
-    const vibeDepth = right * 0.5     // very small
-
-    engine.lfo.frequency.rampTo(vibeRate, 0.1)
-    engine.vibeDepth.gain.rampTo(vibeDepth, 0.12)
+    // ---------- LEFT → pressure ----------
+    const left = x < 50 ? (50 - x) / 50 : 0
+    const minQ = 0.6
+    const maxQ = 22
+    engine.pressureFilter.Q.rampTo(
+      minQ + left ** 1.3 * (maxQ - minQ),
+      0.1
+    )
+    // makeup gain so tightness stays audible
+    engine.pressureGain.gain.rampTo(left * 2.8, 0.12)
+    engine.openGain.gain.rampTo(1 - left * 1.4, 0.12)
 
     // DOWN → chorus
     const down = y > 50 ? (y - 50) / 50 : 0
     engine.chorus.wet.rampTo(0.15 + down * 0.6, 0.1)
     engine.chorus.depth = 1 + Math.sqrt(down) * 0.5
-
-    // LEFT → body pressure (bandpass Q)
-    const left = x < 50 ? (50 - x) / 50 : 0
-    const minQ = 0.6   // relaxed
-    const maxQ = 18    // very tight / constricted
-    const targetQ = minQ + left ** 1.3 * (maxQ - minQ)
-    engine.pressureFilter.Q.rampTo(targetQ, 0.1)
-
   }, [position, isActive])
 
   return null
