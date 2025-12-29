@@ -20,7 +20,8 @@ function XYController() {
     const rect = padRef.current.getBoundingClientRect()
     const x = ((e.clientX - rect.left) / rect.width) * 100
     const y = ((e.clientY - rect.top) / rect.height) * 100
-
+ 
+    //limit (reset to 0/100 edges) when moving outside of pad
     setPosition({
       x: Math.max(0, Math.min(100, x)),
       y: Math.max(0, Math.min(100, y))
@@ -33,9 +34,8 @@ function XYController() {
     setIsActive(false)
   }
 
-
-  console.clear();
-  console.log({ x: position.x.toFixed(), y: position.y.toFixed() });
+  // console.clear();
+  console.log('inside controller', { x: position.x, y: position.y });
   return (
     <>
       <SpatialAudioEngine position={position} isActive={isActive} />

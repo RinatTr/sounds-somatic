@@ -8,6 +8,9 @@ Axis coordinate map:
         Bottom: (50, 100)
 
 //Todo:
+// UI             EFFECT        RANGE
+//x 50 -> 100      LFO          Min:  Max:25hz?
+// setrate-> getrate-> getfadercurve 25hz rate max.
 Descriptive map of coordinates to effect ranges.
         research appropriate effect levels.
 Replace fader math with getFaderCurve

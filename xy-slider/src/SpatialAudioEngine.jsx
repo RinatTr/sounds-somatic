@@ -31,7 +31,7 @@ function SpatialAudioEngine({ position, isActive }) {
     })
 
     const eq = new Tone.EQ3({
-      low: -5,
+      low: -10,
       mid: -8,
       high: 0
     })
@@ -69,7 +69,7 @@ function SpatialAudioEngine({ position, isActive }) {
     })
 
     const pressureGain = new Tone.Gain(0)
-    const pressureDrive = new Tone.Distortion(0.10)
+    const pressureDrive = new Tone.Distortion(0.15)
 
     polySynth.chain(
       eq,
@@ -164,12 +164,13 @@ function SpatialAudioEngine({ position, isActive }) {
   useEffect(() => {
     const engine = engineRef.current
     if (!engine) return
-
-    const clamp = v => Math.max(0, Math.min(100, v))
+    //constrains a numeric value to stay within the range of 0 to 100 (we have already limiter in controller)
+    /* // const clamp = v => Math.max(0, Math.min(100, v))
     const x = clamp(position.x)
-    const y = clamp(position.y)
+    const y = clamp(position.y)*/
+    const [x,y] = [position.x, position.y]
 
-    // UP → high-pass
+    // ----------- UP → Intense (high-pass filter + noise + distortion) ----------
     if (isActive && y <= 40) {
       const up = (40 - y) / 40
       const hp = HP_MIN * Math.pow(20, up)
@@ -184,12 +185,12 @@ function SpatialAudioEngine({ position, isActive }) {
     const dist = isActive && y <= 10 ? ((10 - y) / 10) * 0.8 : 0
     engine.distGain.gain.rampTo(dist, 0.08)
 
-    // ---------- RIGHT → motion ----------
+    // ---------- RIGHT → motion (LFO) ----------
     const right = x > 50 ? (x - 50) / 50 : 0
     engine.lfo.frequency.rampTo(right ** 1.4 * 14, 0.1)
-    engine.vibeDepth.gain.rampTo(right * 0.5, 0.12)
+    engine.vibeDepth.gain.rampTo(right * 0.5, 0.05)
 
-    // ---------- LEFT → pressure ----------
+    // ---------- LEFT → tight (filter)----------
     const left = x < 50 ? (50 - x) / 50 : 0
     const minQ = 0.6
     const maxQ = 22
@@ -201,7 +202,7 @@ function SpatialAudioEngine({ position, isActive }) {
     engine.pressureGain.gain.rampTo(left * 2.8, 0.12)
     engine.openGain.gain.rampTo(1 - left * 1.4, 0.12)
 
-    // DOWN → chorus
+    // ----------- DOWN → expansive (chorus)
     const down = y > 50 ? (y - 50) / 50 : 0
     engine.chorus.wet.rampTo(0.15 + down * 0.6, 0.1)
     engine.chorus.depth = 1 + Math.sqrt(down) * 0.5
