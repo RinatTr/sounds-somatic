@@ -6,7 +6,6 @@ function App() {
   const [isExpanded, setIsExpanded] = useState(false);
 
   const toggleExpand = () => {
-
     setIsExpanded(!isExpanded);
   }
   return (
