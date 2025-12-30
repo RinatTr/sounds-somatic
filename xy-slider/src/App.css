@@ -1,23 +1,28 @@
+/* =========================
+   ROOT / LAYOUT
+========================= */
+
 #root {
   max-width: 1280px;
   margin: 0 auto;
-  padding: 2rem;
   text-align: center;
 }
+
+.container {
+  display: flex;
+  justify-content: center;
+  width: 100%;
+}
+
+/* =========================
+   CONTROLLER AREA
+========================= */
 
 .controller-wrapper {
   display: flex;
   flex-direction: column;
   align-items: center;
   gap: 2rem;
-}
-
-.label-top,
-.label-bottom {
-  font-size: 1.5rem;
-  font-weight: 600;
-  color: rgba(14, 182, 198, 0.6);
-  letter-spacing: 0.1em;
 }
 
 .arrow-container {
@@ -29,7 +34,10 @@
   height: 340px;
 }
 
-/* Pad Edge Labels (Top & Bottom) */
+/* =========================
+   PAD LABELS
+========================= */
+
 .label-pad {
   position: absolute;
   font-size: 0.7rem;
@@ -52,7 +60,8 @@
   transform: translateX(-50%);
 }
 
-/* Side Labels (Left & Right) */
+/* Side Labels */
+
 .label-side {
   position: absolute;
   font-size: 0.7rem;
@@ -77,12 +86,15 @@
   transform: translateY(-50%);
 }
 
+/* =========================
+   ARROWS (ambient only)
+========================= */
+
 .arrow {
   position: absolute;
   font-size: 1.2rem;
   color: rgba(14, 182, 198, 0.6);
   opacity: 0.05;
-  /* transition: opacity 0.3s ease; */
   pointer-events: none;
 }
 
@@ -110,4 +122,107 @@
   transform: translateY(-50%);
 }
 
+/* =========================
+   INSTRUCTIONS CARD
+========================= */
 
+.instructions-card {
+  width: 92%;
+  max-width: 420px;
+  margin: 2rem auto;
+  border-radius: 18px;
+
+  /* background: linear-gradient(
+    180deg,
+    rgba(255, 255, 255, 0.0),
+    rgba(255, 255, 255, 0.01)
+  ); */
+
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+
+  box-shadow:
+    inset 0 1px 0 rgba(255, 255, 255, 0.04);
+
+  position: relative;
+}
+
+/* Soft ambient glow */
+/* .instructions-card::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  border-radius: 8px;
+  pointer-events: none;
+  box-shadow: 0 0 40px rgba(120, 220, 200, 0.06);
+} */
+
+/* =========================
+   INSTRUCTIONS HEADER
+========================= */
+
+.instructions-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+
+  padding: 1rem 1.25rem;
+  cursor: pointer;
+  user-select: none;
+}
+
+.instructions-label {
+  font-size: 0.72rem;
+  letter-spacing: 0.18em;
+  font-weight: 700;
+  color: rgba(255, 255, 255, 0.75);
+}
+
+/* Chevron */
+
+.chevron {
+  font-size: 0.9rem;
+  color: rgba(255, 255, 255, 0.75);
+  opacity: 0.6;
+  transition: transform 0.4s ease, opacity 0.4s ease;
+}
+
+.chevron.open {
+  transform: rotate(180deg);
+  opacity: 0.9;
+}
+
+/* =========================
+   EXPANDABLE BODY
+========================= */
+
+.instructions-body {
+  max-height: 0;
+  overflow: hidden;
+
+  opacity: 0;
+  transform: translateY(-6px);
+
+  transition:
+    max-height 0.6s ease,
+    opacity 0.4s ease,
+    transform 0.4s ease;
+
+  padding: 0 1.25rem;
+}
+
+.instructions-body.expanded {
+  max-height: 400px;
+  opacity: 1;
+  transform: translateY(0);
+  padding-bottom: 1.25rem;
+}
+
+/* Text */
+
+.instructions-body p {
+  margin: 0.6rem 0;
+  font-size: 0.75rem;
+  line-height: 1.6;
+  color: rgba(255, 255, 255, 0.75);
+}
