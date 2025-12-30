@@ -3,7 +3,7 @@ import './App.css'
 import XYController from './XYController'
 
 function App() {
-  const [isExpanded, setIsExpanded] = useState(false);
+  const [isExpanded, setIsExpanded] = useState(true);
 
   const toggleExpand = () => {
     setIsExpanded(!isExpanded);
@@ -36,7 +36,7 @@ function App() {
           <p>Sound and sensation share physical qualities.</p>
           <p>Move slowly and notice how the sound changes.</p>
           <p>The labels around the pad are only suggestions.</p>
-          <p>Let the sound help you sense what is present.</p>
+          <p><strong>Let the sound help you sense what is present.</strong></p>
         </div>
       </div>
     </div>

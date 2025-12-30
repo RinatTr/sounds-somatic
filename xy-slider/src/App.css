@@ -2,11 +2,23 @@
    ROOT / LAYOUT
 ========================= */
 
+:root {
+  background-color: #1c1c1c; /* Deep charcoal */
+  /* Subtle grain texture effect */
+  background-image: radial-gradient(circle at 50% 40%, rgba(124, 185, 181, 0.1) 0%, transparent 60%),
+                    radial-gradient(circle at 50% 80%, rgba(232, 209, 150, 0.05) 0%, transparent 50%);
+  min-height: 100vh;
+  color: white;
+  font-family: 'Inter', -apple-system, sans-serif;
+}
+
 #root {
   max-width: 1280px;
   margin: 0 auto;
   text-align: center;
 }
+
+
 
 .container {
   display: flex;
@@ -42,7 +54,7 @@
   position: absolute;
   font-size: 0.7rem;
   font-weight: 500;
-  letter-spacing: 0.3em; /* Increased spacing for that premium look */
+  letter-spacing: 0.3em; 
   color: rgba(255, 255, 255, 0.6);
   text-transform: uppercase;
   pointer-events: none;
@@ -225,7 +237,8 @@
 
 .instructions-body p {
   margin: 0.6rem 0;
-  font-size: 0.75rem;
+  font-size: 0.79rem;
   line-height: 1.6;
-  color: rgba(255, 255, 255, 0.75);
+  color: rgba(255, 255, 255, 0.6);
+  font-weight: 300;
 }
