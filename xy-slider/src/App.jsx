@@ -24,7 +24,7 @@ function App() {
       <div className="container">
       <div className="instructions-card">
         <div className="instructions-header" onClick={toggleExpand}>
-          <span className="instructions-label">Physical Listening Notes</span>
+          <span className="instructions-label">Physical Listening</span>
           <span className={`chevron ${isExpanded ? 'open' : ''}`}>⌄</span>
         </div>
 

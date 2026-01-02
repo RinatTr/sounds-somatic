@@ -17,7 +17,7 @@
   width: 300px;
   height: 300px;
   background: radial-gradient(circle at center, #E8D196 0%, #7CB9B5 70%, #68A39F 100%);
-  border-radius: 26px; /* Smooth rounded corners */
+  border-radius: 26px; 
   box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3),
               inset 0 0 60px rgba(255, 255, 255, 0.1);
   user-select: none;
@@ -63,31 +63,7 @@
   box-shadow: 0 0 25px rgba(255, 255, 255, 0.6);
 }
 
-.xy-values {
-  display: flex;
-  gap: 2rem;
-  font-size: 1.1rem;
-  font-weight: 600;
-}
-
-.value-display {
-  display: flex;
-  gap: 0.5rem;
-  align-items: center;
-}
-
-.value-display .label {
-  color: #666;
-  font-weight: 500;
-}
-
-.value-display .value {
-  color: #667eea;
-  min-width: 50px;
-  text-align: right;
-}
-
-/* Responsive design */
+/* Responsive support */
 @media (max-width: 600px) {
   .xy-pad {
     width: 250px;
@@ -98,8 +74,4 @@
     font-size: 1.2rem;
   }
 
-  .xy-values {
-    gap: 1rem;
-    font-size: 1rem;
-  }
 }
