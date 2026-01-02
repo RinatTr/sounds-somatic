@@ -33,9 +33,7 @@ function XYController() {
     padRef.current.releasePointerCapture(e.pointerId)
     setIsActive(false)
   }
-
-  // console.clear();
-  console.log('inside controller', { x: position.x, y: position.y });
+console.log('isActive', isActive);
   return (
     <>
       <SpatialAudioEngine position={position} isActive={isActive} />
@@ -53,9 +51,15 @@ function XYController() {
             className="xy-cursor"
             style={{
               left: `${position.x}%`,
-              top: `${position.y}%`
+              top: `${position.y}%`,
+              opacity: isActive ? 1 : 0.2 
             }}
           />
+          {!isActive && (
+            <div className="instruction-text">
+              <span>Touch to begin.</span>
+            </div>
+          )}
         </div>
       </div>
     </>

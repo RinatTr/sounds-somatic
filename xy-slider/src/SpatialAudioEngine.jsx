@@ -156,8 +156,9 @@ function SpatialAudioEngine({ position, isActive }) {
         engine.isPlaying = false
       }
     }
-
+    
     isActive ? start() : stop()
+    console.log('SpatialAudioEngine isActive', isActive);
   }, [isActive])
 
   // ---------- spatial mapping ----------

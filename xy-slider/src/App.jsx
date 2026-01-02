@@ -33,10 +33,9 @@ function App() {
         </div>
 
         <div className={`instructions-body ${isExpanded ? 'expanded' : ''}`}>
-          <p>Sound and sensation share physical qualities.</p>
-          <p>Move slowly and notice how the sound changes.</p>
-          <p>The labels around the pad are only suggestions.</p>
-          <p><strong>Let the sound help you sense what is present.</strong></p>
+          <p><strong>Sound and sensation share physical qualities.</strong></p>
+          <p>Move slowly around the pad and notice how the sound changes;</p>
+          <p>Can you find a sound that matches your inner state?</p>
         </div>
       </div>
     </div>
