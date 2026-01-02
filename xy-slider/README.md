@@ -15,7 +15,7 @@ Axis coordinate map:
 
 2. fix responsive layout.
 3. figure out wording
-4. write a readme. 
+4. write a short readme. 
 5. deploy.
 
 
