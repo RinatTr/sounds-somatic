@@ -237,8 +237,17 @@
 
 .instructions-body p {
   margin: 0.6rem 0;
-  font-size: 0.79rem;
+  font-size: 0.83rem;
   line-height: 1.6;
-  color: rgba(255, 255, 255, 0.6);
-  font-weight: 300;
+  color: rgba(255, 255, 255, 0.7);
+  font-weight: 400;
+}
+
+.footer-credits {
+  font-size: 0.75rem;
+  color: rgba(255, 255, 255, 0.2);
+  position: fixed;
+  bottom: 5px;
+  margin: 0 10px 0 10px;
+  background-color: rgba(28, 28, 28, 0.8);
 }

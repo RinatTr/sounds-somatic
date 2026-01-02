@@ -33,7 +33,7 @@ function XYController() {
     padRef.current.releasePointerCapture(e.pointerId)
     setIsActive(false)
   }
-console.log('isActive', isActive);
+
   return (
     <>
       <SpatialAudioEngine position={position} isActive={isActive} />
@@ -52,7 +52,7 @@ console.log('isActive', isActive);
             style={{
               left: `${position.x}%`,
               top: `${position.y}%`,
-              opacity: isActive ? 1 : 0.2 
+              opacity: isActive ? 1 : 0 
             }}
           />
           {!isActive && (

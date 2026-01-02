@@ -13,13 +13,9 @@ function App() {
       <div className="container">
         <div className="controller-wrapper">
           <div className="arrow-container">
-            <div className="arrow arrow-up">▲</div>
             <div className="label-side label-left">TIGHT</div>
-            <div className="arrow arrow-left">◀</div>
             <XYController />
-            <div className="arrow arrow-right">▶</div>
             <div className="label-side label-right">MOTION</div>
-            <div className="arrow arrow-down">▼</div>
             <div className="label-pad label-top">INTENSE</div>
             <div className="label-pad label-bottom">EXPANSIVE</div>
           </div>
@@ -35,11 +31,12 @@ function App() {
         <div className={`instructions-body ${isExpanded ? 'expanded' : ''}`}>
           <p><strong>Sound and sensation share physical qualities.</strong></p>
           <p>Move slowly around the pad and notice how the sound changes;</p>
-          <p>Can you find a sound that matches your inner state?</p>
+          <p>Can you find a spot that matches your inner state?</p>
         </div>
       </div>
     </div>
-      <div className="credits">
+      <div className="footer-credits">
+        Created by Rinat Tregerman © 2026 • <a href="https://soundssomatic.carrd.co/">Learn more about the practice</a> • Beta Version
       </div>
     </>
   )
