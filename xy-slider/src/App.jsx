@@ -21,7 +21,7 @@ function App() {
           </div>
         </div>
       </div>
-      <div className="container">
+    <div className="container">
       <div className="instructions-card">
         <div className="instructions-header" onClick={toggleExpand}>
           <span className="instructions-label">Physical Listening</span>
@@ -38,9 +38,9 @@ function App() {
         </div>
       </div>
     </div>
-      <div className="footer-credits">
-        Created by Rinat Tregerman © 2026 • <a href="https://soundssomatic.carrd.co/">Learn more about the practice</a> • Beta Version
-      </div>
+    <div className="footer-credits">
+      Created by Rinat Tregerman © 2026 • <a href="https://soundssomatic.carrd.co/">Learn more about the practice</a> • Beta Version
+    </div>
     </>
   )
 }

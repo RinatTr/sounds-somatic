@@ -205,3 +205,12 @@
   color: rgba(255, 255, 255, 0.6);
   font-weight: 300;
 }
+
+.footer-credits {
+  font-size: 0.75rem;
+  color: rgba(255, 255, 255, 0.3);
+  position: fixed;
+  bottom: 5px;
+  margin: 0 10px 0 10px;
+  background-color: rgba(28, 28, 28, 0.8);
+}
