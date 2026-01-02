@@ -24,14 +24,17 @@ function App() {
       <div className="container">
       <div className="instructions-card">
         <div className="instructions-header" onClick={toggleExpand}>
-          <span className="instructions-label">LISTENING NOTES</span>
+          <span className="instructions-label">Physical Listening Notes</span>
           <span className={`chevron ${isExpanded ? 'open' : ''}`}>⌄</span>
         </div>
 
         <div className={`instructions-body ${isExpanded ? 'expanded' : ''}`}>
-          <p><strong>Sound and sensation share physical qualities.</strong></p>
-          <p>Move slowly around the pad and notice how the sound changes;</p>
-          <p>Can you find a spot that matches your inner state?</p>
+          <p><strong>Sound and bodily sensations share physical qualities.</strong></p>
+          <p>
+            Move slowly around the pad. Notice how the sound behaves, and let it match what you feel:
+            in its intensity, movement, spread, or texture.
+          </p>
+          <p>The labels are only suggestions.</p>
         </div>
       </div>
     </div>

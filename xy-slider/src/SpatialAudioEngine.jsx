@@ -31,7 +31,7 @@ function SpatialAudioEngine({ position, isActive }) {
     })
 
     const eq = new Tone.EQ3({
-      low: -10,
+      low: -12,
       mid: -8,
       high: 0
     })
@@ -69,7 +69,7 @@ function SpatialAudioEngine({ position, isActive }) {
     })
 
     const pressureGain = new Tone.Gain(0)
-    const pressureDrive = new Tone.Distortion(0.15)
+    const pressureDrive = new Tone.Distortion(0.18)
 
     polySynth.chain(
       eq,
@@ -158,7 +158,7 @@ function SpatialAudioEngine({ position, isActive }) {
     }
     
     isActive ? start() : stop()
-    console.log('SpatialAudioEngine isActive', isActive);
+
   }, [isActive])
 
   // ---------- spatial mapping ----------

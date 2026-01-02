@@ -7,7 +7,18 @@ Axis coordinate map:
         Top: (50, 0)
         Bottom: (50, 100)
 
-//Todo:
+##Todo:
+1. fix first click no audio bug.
+        1. brainstorm:  web audio api + react life cycle + async/await, 
+                        narrow down to make click work first time, then work up.
+        no bug no more... weird
+
+2. fix responsive layout.
+3. figure out wording
+4. write a readme. 
+5. deploy.
+
+
 // UI             EFFECT        RANGE
 //x 50 -> 100      LFO          Min:  Max:25hz?
 // setrate-> getrate-> getfadercurve 25hz rate max.
