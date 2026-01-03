@@ -151,18 +151,18 @@ function SpatialAudioEngine({ position, isActive }) {
     // the token helps avoid race conditions with async Tone.start()
     const token = ++startTokenRef.current
 
-    const start = async () => {
+    const start = () => {
       console.log(`Audio Engine: Attempting start. isActive: ${isActive}, Context State: ${Tone.getContext().state}`);
 
-      if (Tone.getContext().state !== 'running') {  
-        try {
-          console.log("Audio Engine: Calling Tone.start()");
-          await Tone.start()
-          console.log("Audio Engine: Tone.start() resolved. New State:", Tone.getContext().state);
-        } catch (error) {
-          console.error("Audio Engine: Error during Tone.start():", error);
-        }   
-      }
+      // if (Tone.getContext().state !== 'running') {  
+      //   try {
+      //     console.log("Audio Engine: Calling Tone.start()");
+      //     await Tone.start()
+      //     console.log("Audio Engine: Tone.start() resolved. New State:", Tone.getContext().state);
+      //   } catch (error) {
+      //     console.error("Audio Engine: Error during Tone.start():", error);
+      //   }   
+      // }
       // if a newer start/stop request has occurred, abort
       if (token !== startTokenRef.current) return
 
