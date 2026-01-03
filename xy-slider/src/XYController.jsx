@@ -11,7 +11,6 @@ function XYController() {
   const handlePointerDown = async (e) => {
     e.preventDefault()
     if (Tone.getContext().state !== 'running') {
-      console.log("XYController: Pointer Down - Calling Tone.start()");
       await Tone.start(); 
     }
     padRef.current.setPointerCapture(e.pointerId)
