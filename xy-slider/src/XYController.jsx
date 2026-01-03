@@ -8,14 +8,14 @@ function XYController() {
   const [isActive, setIsActive] = useState(false)
   const padRef = useRef(null)
 
-  const handlePointerDown = async (e) => {
+  const handlePointerDown = (e) => {
     e.preventDefault()
-    if (Tone.getContext().state !== 'running') {
-      await Tone.start(); 
-    }
     padRef.current.setPointerCapture(e.pointerId)
-    
     setIsActive(true)
+    // must start Tone context on user interaction
+    if (Tone.getContext().state !== 'running') {
+      Tone.start(); 
+    }
   }
 
   const handlePointerMove = (e) => {
