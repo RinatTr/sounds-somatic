@@ -12,11 +12,21 @@ const CHORUS_MIN = {
 }
 
 function SpatialAudioEngine({ position, isActive }) {
+  console.log('Rendering SpatialAudioEngine', Tone.getContext().state, Tone.getContext().rawContext.state); 
+  // null until mounted
   const engineRef = useRef(null)
+  /* start token to avoid race conditions as a result of rapid user interaction. 
+    useRef so it persists across renders.
+    the idea is to increment it on each start/stop request, and capture its value
+    in the async start function. Then, after any await, check if the token is still the same.
+    If not, it means a newer start/stop request has occurred, and we should abort the current one.
+  */
   const startTokenRef = useRef(0)
 
   // ---------- build graph once ----------
+
   useEffect(() => {
+    console.log("Audio Engine: Initializing graph nodes");
     const output = new Tone.Gain(0.7).toDestination()
 
     // ---------- CORE VOICE ----------
@@ -123,7 +133,10 @@ function SpatialAudioEngine({ position, isActive }) {
       isPlaying: false
     }
 
+    console.log('SpatialAudioEngine MOUNTED')
+
     return () => {
+      console.log("Audio Engine: Disposing nodes");
       Object.values(engineRef.current || {}).forEach(n => n?.dispose?.())
       output.dispose()
       engineRef.current = null
@@ -132,37 +145,51 @@ function SpatialAudioEngine({ position, isActive }) {
 
   // ---------- start / stop ----------
   useEffect(() => {
+    console.log(`IsActive Changed to: ${isActive}, Context State: ${Tone.getContext().state}`)
     const engine = engineRef.current
     if (!engine) return
-
+    // the token helps avoid race conditions with async Tone.start()
     const token = ++startTokenRef.current
 
     const start = async () => {
-      if (Tone.getContext().state !== 'running') {
-        await Tone.start()
+      console.log(`Audio Engine: Attempting start. isActive: ${isActive}, Context State: ${Tone.getContext().state}`);
+
+      if (Tone.getContext().state !== 'running') {  
+        try {
+          console.log("Audio Engine: Calling Tone.start()");
+          await Tone.start()
+          console.log("Audio Engine: Tone.start() resolved. New State:", Tone.getContext().state);
+        } catch (error) {
+          console.error("Audio Engine: Error during Tone.start():", error);
+        }   
       }
+      // if a newer start/stop request has occurred, abort
       if (token !== startTokenRef.current) return
 
       if (!engine.isPlaying) {
+        console.log("Audio Engine: Triggering synth attack");
         engine.polySynth.triggerAttack(ACTIVE_NOTES[0])
         engine.isPlaying = true
       }
     }
 
     const stop = () => {
+      console.log(`Audio Engine: Attempting stop.`);
       startTokenRef.current++
       if (engine.isPlaying) {
+        console.log("Audio Engine: Engine playing, Stopping sound");
         engine.polySynth.triggerRelease(ACTIVE_NOTES[0])
         engine.isPlaying = false
       }
     }
-    
+    // isActive changes when user touches / releases pad
     isActive ? start() : stop()
 
   }, [isActive])
 
   // ---------- spatial mapping ----------
   useEffect(() => {
+    // reference to existing audio engine
     const engine = engineRef.current
     if (!engine) return
     //constrains a numeric value to stay within the range of 0 to 100 (we have already limiter in controller)
@@ -207,6 +234,8 @@ function SpatialAudioEngine({ position, isActive }) {
     const down = y > 50 ? (y - 50) / 50 : 0
     engine.chorus.wet.rampTo(0.15 + down * 0.6, 0.1)
     engine.chorus.depth = 1 + Math.sqrt(down) * 0.5
+
+
   }, [position, isActive])
 
   return null

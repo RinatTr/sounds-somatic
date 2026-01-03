@@ -1,6 +1,7 @@
 import { useState, useRef } from 'react'
 import './XYController.css'
 import SpatialAudioEngine from './SpatialAudioEngine'
+import * as Tone from 'tone';
 
 function XYController() {
   const [position, setPosition] = useState({ x: 50, y: 50 })
@@ -9,7 +10,12 @@ function XYController() {
 
   const handlePointerDown = (e) => {
     e.preventDefault()
+    if (Tone.getContext().state !== 'running') {
+      console.log("XYController: Pointer Down - Calling Tone.start()");
+        Tone.start(); 
+    }
     padRef.current.setPointerCapture(e.pointerId)
+    
     setIsActive(true)
   }
 
