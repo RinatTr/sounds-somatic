@@ -33,6 +33,7 @@
   flex-direction: column;
   align-items: center;
   gap: 2rem;
+  padding: 2rem 1rem;
 }
 
 .arrow-container {
@@ -40,40 +41,40 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  width: 340px;
-  height: 340px;
+  width: 100%;
+  max-width: 500px;
 }
 
 /* =========================
-   PAD LABELS
+   PAD LABELS (Top/Bottom)
 ========================= */
 
 .label-pad {
   position: absolute;
   font-size: 0.7rem;
   font-weight: 500;
-  letter-spacing: 0.3em; 
+  letter-spacing: 0.3em;
   color: rgba(255, 255, 255, 0.6);
   text-transform: uppercase;
   pointer-events: none;
-  display: flex;
-  align-items: center;
-  gap: 8px;
+  white-space: nowrap;
 }
 
 .label-pad.label-top {
-  top: 12px;
+  top: -20px;
   left: 50%;
   transform: translateX(-50%);
 }
 
 .label-pad.label-bottom {
-  bottom: 12px;
+  bottom: -20px;
   left: 50%;
   transform: translateX(-50%);
 }
 
-/* Side Labels */
+/* =========================
+   SIDE LABELS (Left/Right)
+========================= */
 
 .label-side {
   position: absolute;
@@ -85,20 +86,51 @@
   pointer-events: none;
   writing-mode: vertical-rl;
   text-orientation: mixed;
+  white-space: nowrap;
 }
 
 .label-side.label-left {
-  left: 12px;
+  left: -20px;
   top: 50%;
   transform: translateY(-50%) rotateZ(180deg);
 }
 
 .label-side.label-right {
-  right: 12px;
+  right: -20px;
   top: 50%;
   transform: translateY(-50%);
 }
 
+/* Responsive support */
+@media (max-width: 600px) {
+  .arrow-container {
+    max-width: 350px;
+  }
+
+  .label-pad {
+    font-size: 0.65rem;
+  }
+
+  .label-pad.label-top {
+    top: -12px;
+  }
+
+  .label-pad.label-bottom {
+    bottom: -12px;
+  }
+
+  .label-side {
+    font-size: 0.6rem;
+  }
+
+  .label-side.label-left {
+    left: -12px;
+  }
+
+  .label-side.label-right {
+    right: -12px;
+  }
+}
 
 /* =========================
    INSTRUCTIONS CARD
@@ -124,16 +156,6 @@
 
   position: relative;
 }
-
-/* Soft ambient glow */
-/* .instructions-card::after {
-  content: '';
-  position: absolute;
-  inset: 0;
-  border-radius: 8px;
-  pointer-events: none;
-  box-shadow: 0 0 40px rgba(120, 220, 200, 0.06);
-} */
 
 /* =========================
    INSTRUCTIONS HEADER
