@@ -30,14 +30,16 @@ function App() {
 
         <div className={`instructions-body ${isExpanded ? 'expanded' : ''}`}>
           <p><strong>Sound and sensation share physical qualities.</strong></p>
-          <p>
-            As you move slowly around the pad, notice how the sound behaves. Let it resonate with what you feel:
-            in its intensity, movement, spread, or texture. Like Vipassana, 
-            use the sound to detect, discern, and stay with sensations. </p>
+          <p> As you move slowly around the pad, observe how the sound changes.</p>
+             <p> Notice whether its qualities correspond to what you feel in your body:
+              You might begin with intensity, adjusting the sound to match how strong a sensation is.
+              Then notice whether the sensation has movement, texture, or spread, and adjust the sound accordingly.
+              Additional qualities may also be present; you might spot a sound that describes them too. </p>      
+             <p>Like in Vipassana, sound is used to detect, discern, and stay with sensations. </p>
           <p><i>The labels are only suggestions. Best experienced with speakers in a quiet room, or headphones.</i></p>
         </div>
       </div>
-    </div>
+    </div> 
     <div className="footer-credits">
       Created by Rinat Tregerman © 2026 • <a href="https://soundssomatic.carrd.co/">Learn more about the practice</a> • Beta Version
     </div>
