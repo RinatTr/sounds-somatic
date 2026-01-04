@@ -21,6 +21,7 @@ function SpatialAudioEngine({ position, isActive }) {
     If not, it means a newer start/stop request has occurred, and we should abort the current one.
   */
   const startTokenRef = useRef(0)
+  const hasAudiblyStartedRef = useRef(false);
 
   // ---------- build graph once ----------
 
@@ -148,17 +149,27 @@ function SpatialAudioEngine({ position, isActive }) {
     const start = async () => {
       // we initialized Tone context on pointer down in xycontroller
       // if a newer start/stop request has occurred, abort
-      if (token !== startTokenRef.current) return
+      if (token !== startTokenRef.current) return;
 
       if (Tone.getContext().state !== 'running') {
-        // engine boundary — wait until audio is real to triggerAttack
         await Tone.start();
         if (token !== startTokenRef.current) return;
       }
 
-      if (!engine.isPlaying) {
-        engine.polySynth.triggerAttack(ACTIVE_NOTES[0])
-        engine.isPlaying = true
+      if (engine.isPlaying) return;
+
+      const trigger = () => {
+        engine.polySynth.triggerAttack(ACTIVE_NOTES[0]);
+        engine.isPlaying = true;
+        hasAudiblyStartedRef.current = true;
+      };
+
+      if (!hasAudiblyStartedRef.current) {
+        // 🔑 iOS requires the first audible sound
+        // to happen *after* the gesture frame
+        requestAnimationFrame(trigger);
+      } else {
+        trigger();
       }
     } 
 
