@@ -21,7 +21,6 @@ function SpatialAudioEngine({ position, isActive }) {
     If not, it means a newer start/stop request has occurred, and we should abort the current one.
   */
   const startTokenRef = useRef(0)
-  const hasAudiblyStartedRef = useRef(false);
 
   // ---------- build graph once ----------
 
@@ -78,7 +77,7 @@ function SpatialAudioEngine({ position, isActive }) {
     })
 
     const pressureGain = new Tone.Gain(0)
-    const pressureDrive = new Tone.Distortion(0.18)
+    const pressureDrive = new Tone.Distortion(0.12)
 
     polySynth.chain(
       eq,
