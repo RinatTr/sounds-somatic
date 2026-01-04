@@ -10,9 +10,9 @@ function XYController() {
 
   const handlePointerDown = (e) => {
     e.preventDefault()
-    padRef.current.setPointerCapture(e.pointerId)
-        // must start Tone context on user interaction
+    padRef.current.setPointerCapture(e.pointerId)   
     setIsActive(true)
+    // gesture boundary — never await here - must start Tone context on user interaction
     if (Tone.getContext().state !== 'running') {
       Tone.start(); 
     }

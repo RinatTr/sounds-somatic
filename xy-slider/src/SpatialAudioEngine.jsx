@@ -145,16 +145,22 @@ function SpatialAudioEngine({ position, isActive }) {
  
     const token = ++startTokenRef.current
 
-    const start = () => {
+    const start = async () => {
       // we initialized Tone context on pointer down in xycontroller
       // if a newer start/stop request has occurred, abort
       if (token !== startTokenRef.current) return
+
+      if (Tone.getContext().state !== 'running') {
+        // engine boundary — wait until audio is real to triggerAttack
+        await Tone.start();
+        if (token !== startTokenRef.current) return;
+      }
 
       if (!engine.isPlaying) {
         engine.polySynth.triggerAttack(ACTIVE_NOTES[0])
         engine.isPlaying = true
       }
-    }
+    } 
 
     const stop = () => {
       startTokenRef.current++

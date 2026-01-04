@@ -34,7 +34,7 @@ function App() {
             As you move slowly around the pad, notice how the sound behaves. Let it resonate with what you feel:
             in its intensity, movement, spread, or texture. Like Vipassana, 
             use the sound to detect, discern, and stay with sensations. </p>
-          <p><i>The labels are only suggestions. Best experienced with headphones.</i></p>
+          <p><i>The labels are only suggestions. Best experienced with speakers in a quiet room, or headphones.</i></p>
         </div>
       </div>
     </div>
