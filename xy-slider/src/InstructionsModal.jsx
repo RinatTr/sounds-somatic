@@ -6,7 +6,7 @@ const PAGES = [
     content: (
       <>
         <p>This is a sound-guided body scan tool.</p>
-        <p>Sound is used to explore with sensations as they arise.</p>
+        <p>Sound is used to explore sensations as they arise.</p>
         <p>You may stop at any time.</p>
       </>
     ),
