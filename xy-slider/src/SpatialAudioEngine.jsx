@@ -26,6 +26,8 @@ function SpatialAudioEngine({ position, isActive }) {
 
   useEffect(() => {
     const output = new Tone.Gain(0.7).toDestination()
+    const widener = new Tone.StereoWidener(0.5) //0.5 - regular stereo, 0 - mono, 1 - widest
+
 
     // ---------- CORE VOICE ----------
     const polySynth = new Tone.PolySynth(Tone.Synth, {
@@ -49,7 +51,7 @@ function SpatialAudioEngine({ position, isActive }) {
       frequency: HP_MIN
     })
 
-    const chorus = new Tone.Chorus(CHORUS_MIN)
+    const chorus = new Tone.Chorus(CHORUS_MIN) //also used for expansion 
     chorus.start()
 
     const reverb = new Tone.Reverb({
@@ -66,6 +68,7 @@ function SpatialAudioEngine({ position, isActive }) {
       chorus,
       reverb,
       openGain,
+      widener,
       output
     )
 
@@ -77,7 +80,7 @@ function SpatialAudioEngine({ position, isActive }) {
     })
 
     const pressureGain = new Tone.Gain(0)
-    const pressureDrive = new Tone.Distortion(0.12)
+    const pressureDrive = new Tone.Distortion(0.05)
 
     polySynth.chain(
       eq,
@@ -87,6 +90,7 @@ function SpatialAudioEngine({ position, isActive }) {
       highpass,
       chorus,
       reverb,
+      widener,
       output
     )
 
@@ -115,6 +119,16 @@ function SpatialAudioEngine({ position, isActive }) {
 
     reverb.generate()
 
+    // // ---------- 3D PANNER --------------
+    // const panner = new Tone.Panner3D({
+    //                           panningModel: "HRTF",
+    //                           positionX: 0,
+    //                           positionY: 0,
+    //                           positionZ: 0
+    //                         })
+    
+    // polySynth.connect(panner);
+    
     engineRef.current = {
       polySynth,
       eq,
@@ -128,6 +142,7 @@ function SpatialAudioEngine({ position, isActive }) {
       noiseGain,
       lfo,
       vibeDepth,
+      widener,
       isPlaying: false
     }
 
@@ -217,11 +232,11 @@ function SpatialAudioEngine({ position, isActive }) {
     engine.pressureGain.gain.rampTo(left * 2.8, 0.12)
     engine.openGain.gain.rampTo(1 - left * 1.4, 0.12)
 
-    // ----------- DOWN → expansive (chorus)
-    const down = y > 50 ? (y - 50) / 50 : 0
-    engine.chorus.wet.rampTo(0.15 + down * 0.6, 0.1)
-    engine.chorus.depth = 1 + Math.sqrt(down) * 0.5
-
+    // ----------- DOWN → expansive (chorus + 3D Panner)
+    const down = y > 50 ? (y - 50) / 50 : 0 // scale 'down' 0 -> 1
+    engine.chorus.wet.rampTo(0.20 + down * 0.6, 0.1)
+    engine.chorus.depth = 1.3 + Math.sqrt(down) * 0.5
+    engine.widener.width.rampTo(0.5 + (down * 0.5), 0.1); // scale 'down' from 0->1 to 0.5 -> 1
 
   }, [position, isActive])
 
