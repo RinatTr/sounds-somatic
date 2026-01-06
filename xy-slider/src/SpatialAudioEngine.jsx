@@ -1,7 +1,7 @@
 import { useEffect, useRef } from 'react'
 import * as Tone from 'tone'
 
-const ACTIVE_NOTES = [100]
+const ACTIVE_NOTES = [98] //G2
 const HP_MIN = 50
 const CHORUS_MIN = {
   frequency: 0.5,
@@ -29,7 +29,7 @@ function SpatialAudioEngine({ position, isActive }) {
 
     // ---------- CORE VOICE ----------
     const polySynth = new Tone.PolySynth(Tone.Synth, {
-      oscillator: { type: 'triangle8', detune: 3 },
+      oscillator: { type: 'triangle8', detune: 2 },
       envelope: {
         attack: 0.1,
         decay: 0.25,
@@ -39,7 +39,7 @@ function SpatialAudioEngine({ position, isActive }) {
     })
 
     const eq = new Tone.EQ3({
-      low: -12,
+      low: -17,
       mid: -8,
       high: 0
     })
@@ -54,7 +54,7 @@ function SpatialAudioEngine({ position, isActive }) {
 
     const reverb = new Tone.Reverb({
       decay: 0.8,
-      wet: 0.5
+      wet: 0.9
     })
 
     // ---------- OPEN PATH (center + right) ----------
