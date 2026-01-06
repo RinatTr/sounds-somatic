@@ -6,7 +6,7 @@ const PAGES = [
     content: (
       <>
         <p>This is a sound-guided body scan tool.</p>
-        <p>Sound is used to stay with sensations as they arise.</p>
+        <p>Sound is used to explore with sensations as they arise.</p>
         <p>You may stop at any time.</p>
       </>
     ),
@@ -30,14 +30,13 @@ const PAGES = [
     title: "Using the Pad",
     content: (
       <>
-        <p>Move slowly within the pad and observe how the sound changes.</p>
+         <p>Move slowly within the pad and observe how the sound changes.</p>
         <p>
-          You might begin with intensity, adjusting the sound to match how strong
-          a sensation is. Then notice movement, texture, or spread, and adjust
-          accordingly.
+        You might begin with intensity, matching the sound to how strong a sensation is.
+        Then notice movement, texture, or spread, and adjust accordingly.
         </p>
         <p>
-          Additional qualities may appear. See if a sound can describe them too.
+        Additional qualities may appear. See if a sound can describe them too.
         </p>
       </>
     ),
@@ -62,7 +61,10 @@ const PAGES = [
 
 function InstructionsModal({ isOpen, onClose }) {
   const [pageIndex, setPageIndex] = useState(0)
-
+  const handleClose = () =>{
+    setPageIndex(0)
+    onClose()
+  }
   if (!isOpen) return null
 
   const isFirst = pageIndex === 0
@@ -73,7 +75,7 @@ function InstructionsModal({ isOpen, onClose }) {
       <div className="modal-card" onClick={(e) => e.stopPropagation()}>
         <div className="modal-header">
           <span className="modal-title">{PAGES[pageIndex].title}</span>
-          <button className="modal-close" onClick={onClose}>×</button>
+          <button className="modal-close" onClick={handleClose}>×</button>
         </div>
 
         <div className="modal-body">
