@@ -21,7 +21,7 @@ const PAGES = [
         </p>
         <p>
           Over time, this trains attention and reduces reactivity.
-          Spend time with one sensation at a time.
+          Stay with one sensation at a time.
         </p>
       </>
     ),
@@ -33,10 +33,7 @@ const PAGES = [
          <p>Move slowly within the pad and observe how the sound changes.</p>
         <p>
         You might begin with intensity, matching the sound to how strong a sensation is.
-        Then notice movement, texture, or spread, and adjust accordingly.
-        </p>
-        <p>
-        Additional qualities may appear. See if a sound can describe them too.
+        Then notice movement, texture, spread, and any other qualities, adjusting the sound accordingly.
         </p>
       </>
     ),
@@ -51,7 +48,7 @@ const PAGES = [
         </p>
         <p>The labels are only suggestions.</p>
         <p>
-          <i>Best experienced with speakers in a quiet room, or headphones.</i>
+          <i>Best experienced with speakers in a quiet room, or headphones. On phones, sound will play only if silent mode is off.</i>
         </p>
       </>
     ),
