@@ -25,7 +25,7 @@ function SpatialAudioEngine({ position, isActive }) {
   // ---------- build graph once ----------
 
   useEffect(() => {
-    const output = new Tone.Gain(0.7).toDestination()
+    const output = new Tone.Gain(0.8).toDestination()
     const widener = new Tone.StereoWidener(0.5) //0.5 - regular stereo, 0 - mono, 1 - widest
 
 
@@ -55,8 +55,8 @@ function SpatialAudioEngine({ position, isActive }) {
     chorus.start()
 
     const reverb = new Tone.Reverb({
-      decay: 0.8,
-      wet: 0.9
+      decay: 0.7,
+      wet: 0.8
     })
 
     // ---------- OPEN PATH (center + right) ----------
