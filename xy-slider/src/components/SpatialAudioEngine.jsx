@@ -31,7 +31,7 @@ function SpatialAudioEngine({ position, isActive }) {
 
     // ---------- CORE VOICE ----------
     const polySynth = new Tone.PolySynth(Tone.Synth, {
-      oscillator: { type: 'triangle8', detune: 2 },
+      oscillator: { type: 'triangle8', detune: 1 },
       envelope: {
         attack: 0.1,
         decay: 0.25,
@@ -118,16 +118,6 @@ function SpatialAudioEngine({ position, isActive }) {
     noise.start()
 
     reverb.generate()
-
-    // // ---------- 3D PANNER --------------
-    // const panner = new Tone.Panner3D({
-    //                           panningModel: "HRTF",
-    //                           positionX: 0,
-    //                           positionY: 0,
-    //                           positionZ: 0
-    //                         })
-    
-    // polySynth.connect(panner);
     
     engineRef.current = {
       polySynth,
@@ -232,7 +222,7 @@ function SpatialAudioEngine({ position, isActive }) {
     engine.pressureGain.gain.rampTo(left * 2.8, 0.12)
     engine.openGain.gain.rampTo(1 - left * 1.4, 0.12)
 
-    // ----------- DOWN → expansive (chorus + 3D Panner)
+    // ----------- DOWN → expansive (chorus + widener)
     const down = y > 50 ? (y - 50) / 50 : 0 // scale 'down' 0 -> 1
     engine.chorus.wet.rampTo(0.20 + down * 0.6, 0.1)
     engine.chorus.depth = 1.3 + Math.sqrt(down) * 0.5

@@ -1,5 +1,5 @@
 import { useState, useRef } from 'react'
-import './XYController.css'
+import '../css/XYController.css'
 import SpatialAudioEngine from './SpatialAudioEngine'
 import * as Tone from 'tone';
 

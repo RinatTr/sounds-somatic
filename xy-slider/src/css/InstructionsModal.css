@@ -1,0 +1,136 @@
+
+/* =========================
+   MODAL OVERLAY
+========================= */
+
+.modal-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(22, 22, 22, 0.4);
+  backdrop-filter: blur(6px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1000;
+}
+
+/* =========================
+   MODAL CARD
+========================= */
+
+.modal-card {
+  width: 92%;
+  max-width: 420px;
+  border-radius: 20px;
+  background: linear-gradient(
+    180deg,
+    rgba(255,255,255,0.03),
+    rgba(255,255,255,0.01)
+  );
+  backdrop-filter: blur(14px);
+  box-shadow: 0 10px 40px rgba(0,0,0,0.4);
+  animation: modalFadeIn 0.35s ease;
+}
+
+/* =========================
+   MODAL HEADER
+========================= */
+
+.modal-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0.5rem 1.25rem;
+}
+
+.modal-title {
+  font-size: 0.9rem;
+  letter-spacing: 0.18em;
+  font-weight: 700;
+  color: rgba(255,255,255,0.75);
+}
+
+.modal-close {
+  background: none;
+  border: none;
+  color: rgba(255,255,255,0.6);
+  font-size: 1.2rem;
+  cursor: pointer;
+}
+
+/* =========================
+   MODAL BODY
+========================= */
+
+.modal-body {
+  padding: 0 1.25rem 1rem;
+}
+
+.modal-body p {
+  font-size: 1rem;
+  font-weight: 400;
+  line-height: 1.45;
+  color: rgba(255,255,255,0.8);
+  text-align: left;
+}
+
+/* =========================
+   MODAL FOOTER
+========================= */
+
+.modal-footer {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0.75rem 1.25rem 1.25rem;
+}
+
+.modal-footer button {
+  background: none;
+  border: none;
+  color: rgba(255,255,255,0.7);
+  font-size: 1rem;
+  cursor: pointer;
+}
+
+.modal-footer button:disabled {
+  opacity: 0.3;
+  cursor: default;
+}
+
+.modal-progress {
+  font-size: 0.9rem;
+  letter-spacing: 0.15em;
+  color: rgba(255,255,255,0.4);
+}
+
+/* =========================
+   INSTRUCTIONS BUTTON
+========================= */
+
+.instructions-button {
+  margin-top: 1rem;
+  background: none;
+  border: 1px solid rgba(255,255,255,0.15);
+  border-radius: 14px;
+  padding: 0.5rem 1rem;
+  font-size: 0.8rem;
+  letter-spacing: 0.2em;
+  color: rgba(255,255,255,0.7);
+  cursor: pointer;
+}
+
+/* =========================
+   ANIMATION
+========================= */
+
+@keyframes modalFadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(10px) scale(0.98);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
