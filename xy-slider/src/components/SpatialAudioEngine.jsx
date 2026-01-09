@@ -1,15 +1,7 @@
 import { useEffect, useRef } from 'react'
 import * as Tone from 'tone'
+import * as config from '../config/audioConfig';
 
-const ACTIVE_NOTES = [98] //G2
-const HP_MIN = 50
-const CHORUS_MIN = {
-  frequency: 0.5,
-  delayTime: 2.5,
-  depth: 0.2,
-  feedback: 0,
-  wet: 0
-}
 
 function SpatialAudioEngine({ position, isActive }) {
   // null until mounted
@@ -30,34 +22,12 @@ function SpatialAudioEngine({ position, isActive }) {
 
 
     // ---------- CORE VOICE ----------
-    const polySynth = new Tone.PolySynth(Tone.Synth, {
-      oscillator: { type: 'triangle8', detune: 1 },
-      envelope: {
-        attack: 0.1,
-        decay: 0.25,
-        sustain: 0.7,
-        release: 0.3
-      }
-    })
-
-    const eq = new Tone.EQ3({
-      low: -17,
-      mid: -8,
-      high: 0
-    })
-
-    const highpass = new Tone.Filter({
-      type: 'highpass',
-      frequency: HP_MIN
-    })
-
-    const chorus = new Tone.Chorus(CHORUS_MIN) //also used for expansion 
+    const polySynth = new Tone.PolySynth(Tone.Synth, config.SYNTH.init)
+    const eq = new Tone.EQ3(config.EFFECTS.eq.init)
+    const highpass = new Tone.Filter(config.EFFECTS.filter.highpass.init)
+    const chorus = new Tone.Chorus(config.EFFECTS.chorus.init) 
     chorus.start()
-
-    const reverb = new Tone.Reverb({
-      decay: 0.7,
-      wet: 0.8
-    })
+    const reverb = new Tone.Reverb(config.EFFECTS.reverb.init)
 
     // ---------- OPEN PATH (center + right) ----------
     const openGain = new Tone.Gain(1)
@@ -73,12 +43,7 @@ function SpatialAudioEngine({ position, isActive }) {
     )
 
     // ---------- PRESSURE PATH (left) ----------
-    const pressureFilter = new Tone.Filter({
-      type: 'bandpass',
-      frequency: 650,
-      Q: 0.6
-    })
-
+    const pressureFilter = new Tone.Filter(config.EFFECTS.filter.bandpass.init)
     const pressureGain = new Tone.Gain(0)
     const pressureDrive = new Tone.Distortion(0.05)
 
@@ -95,7 +60,7 @@ function SpatialAudioEngine({ position, isActive }) {
     )
 
     // ---------- MOTION (RIGHT ONLY) ----------
-    const lfo = new Tone.LFO({ frequency: 0, min: -1, max: 1 })
+    const lfo = new Tone.LFO(config.EFFECTS.lfo.init)
     const vibeDepth = new Tone.Gain(0)
     lfo.connect(vibeDepth)
     vibeDepth.connect(output.gain)
@@ -110,7 +75,7 @@ function SpatialAudioEngine({ position, isActive }) {
     distGain.connect(highpass)
 
     // ---------- NOISE (parallel, respects pressure) ----------
-    const noise = new Tone.Noise('pink')
+    const noise = new Tone.Noise(config.EFFECTS.noise.init.type)
     const noiseGain = new Tone.Gain(0)
 
     noise.chain(noiseGain, pressureFilter)
@@ -162,7 +127,7 @@ function SpatialAudioEngine({ position, isActive }) {
       }
 
       if (!engine.isPlaying) {
-        engine.polySynth.triggerAttack(ACTIVE_NOTES[0])
+        engine.polySynth.triggerAttack(config.NOTE[0])
         engine.isPlaying = true
       }
     } 
@@ -170,7 +135,7 @@ function SpatialAudioEngine({ position, isActive }) {
     const stop = () => {
       startTokenRef.current++
       if (engine.isPlaying) {
-        engine.polySynth.triggerRelease(ACTIVE_NOTES[0])
+        engine.polySynth.triggerRelease(config.NOTE[0])
         engine.isPlaying = false
       }
     }
@@ -193,7 +158,7 @@ function SpatialAudioEngine({ position, isActive }) {
     // ----------- UP → Intense (high-pass filter + noise + distortion) ----------
     if (isActive && y <= 40) {
       const up = (40 - y) / 40
-      const hp = HP_MIN * Math.pow(20, up)
+      const hp = config.EFFECTS.filter.highpass.init.frequency * Math.pow(20, up)
       engine.highpass.frequency.rampTo(hp, 0.08)
     }
 
