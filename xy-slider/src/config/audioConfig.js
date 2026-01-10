@@ -100,8 +100,9 @@ export const EFFECTS = {
     },
   },
   widener: {
-    default: 0.5,
-    max: 1
+    init: {
+      width: 0.5, //0.5 - regular stereo, 0 - mono, 1 - widest
+    },
   },
 }
 
