@@ -8,24 +8,7 @@ An interactive web application that explores the relationship between sound and 
 
 The XY controller maps physical movement to audio parameters in real-time, encouraging slow, intentional interaction and deeper awareness of how sound qualities mirror bodily sensations.
 
-## 🚀 Quick Start
-
-### Installation
-```bash
-npm install
-```
-
-### Development
-```bash
-npm run dev
-```
-
-Visit `http://localhost:5173` in your browser.
-
-### Build
-```bash
-npm run build
-```
+ - [Live Version](http://sounds-somatic.vercel.app)
 
 ## 🏗️ Architecture
 
@@ -128,8 +111,7 @@ The audio graph is structured as a **hybrid mixer** with one core voice, multipl
 ## 📝 Configuration
 
 Audio parameters are centralized in `src/config/audioConfig.js`:
-
-**To modify audio behavior**, edit values in `audioConfig.js`. Scaling utilities in `src/utils/scalingUtils.js` handle coordinate-to-parameter mapping.
+**To modify audio behavior**, edit values in `audioConfig.js`. 
 
 ## 🎯 Usage
 
@@ -149,9 +131,9 @@ See `package.json` for full dependency list.
 
 ## 🔗 Resources
 
-- [Tone.js Docs](https://tonejs.org/)
-- [Web Audio API](https://developer.mozilla.org/en-US/docs/Web/API/Web_Audio_API)
-- [Somatic Practices](https://soundssomatic.carrd.co/)
+- [Tone.js Docs](https://tonejs.github.io/)
+- [Web Audio API](https://www.w3.org/TR/webaudio-1.1/)
+- [Sounds-Somatic Practices](https://soundssomatic.carrd.co/)
 
 ## 📄 Credits
 
