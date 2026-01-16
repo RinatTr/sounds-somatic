@@ -11,6 +11,11 @@ function XYController() {
   const handlePointerDown = (e) => {
     e.preventDefault()
     padRef.current.setPointerCapture(e.pointerId)
+
+    //unblock audio session on iOS Safari 17+
+    if (navigator.audioSession) {
+      navigator.audioSession.type = "playback"; 
+    }
         // must start Tone context on user interaction
     setIsActive(true)
     if (Tone.getContext().state !== 'running') {

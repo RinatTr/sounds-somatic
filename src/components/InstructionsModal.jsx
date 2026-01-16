@@ -49,7 +49,7 @@ const PAGES = [
         </p>
         <p>The labels are only suggestions.</p>
         <p>
-          <i>Best experienced with speakers in a quiet room, or headphones. On phones, sound will play only if silent mode is off.</i>
+          <i>Best experienced with speakers in a quiet room, or headphones. To hear audio on iOS 16 or older, ensure silent mode is off.</i>
         </p>
       </>
     ),
