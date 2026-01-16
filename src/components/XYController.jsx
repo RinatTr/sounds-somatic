@@ -11,7 +11,7 @@ function XYController() {
   const handlePointerDown = (e) => {
     e.preventDefault()
     padRef.current.setPointerCapture(e.pointerId)
-
+    updatePosition(e)
     //unblock audio session on iOS Safari 17+
     if (navigator.audioSession) {
       navigator.audioSession.type = "playback"; 
@@ -26,7 +26,16 @@ function XYController() {
   const handlePointerMove = (e) => {
     if (!isActive) return
     e.preventDefault()
+    updatePosition(e)
+  }
 
+  const handlePointerUp = (e) => {
+    e.preventDefault()
+    padRef.current.releasePointerCapture(e.pointerId)
+    setIsActive(false)
+  }
+
+  const updatePosition = (e) => {
     const rect = padRef.current.getBoundingClientRect()
     const x = ((e.clientX - rect.left) / rect.width) * 100
     const y = ((e.clientY - rect.top) / rect.height) * 100
@@ -37,13 +46,6 @@ function XYController() {
       y: Math.max(0, Math.min(100, y))
     })
   }
-
-  const handlePointerUp = (e) => {
-    e.preventDefault()
-    padRef.current.releasePointerCapture(e.pointerId)
-    setIsActive(false)
-  }
-
   return (
     <>
       <SpatialAudioEngine position={position} isActive={isActive} />
@@ -67,7 +69,7 @@ function XYController() {
           />
           {!isActive && (
             <div className="instruction-text">
-              <span>Touch to begin.</span>
+              <span>Touch and hold to begin.</span>
             </div>
           )}
         </div>

@@ -6,7 +6,7 @@ const PAGES = [
     title: "Welcome",
     content: (
       <>
-        <p>This is a sound-guided body scan tool.</p>
+        <p>This is a sound-guided mindfulness tool.</p>
         <p>Sound is used to explore sensations as they arise.</p>
         <p>You may stop at any time.</p>
       </>
@@ -17,12 +17,11 @@ const PAGES = [
     content: (
       <>
         <p>
-          Sound and sensation share physical qualities. Adjust the sound until
-          it describes the sensation as closely as possible.
+          Sound and sensation share physical qualities. Focus on a sensation, and adjust the sound until
+          it describes it as closely as possible.
         </p>
         <p>
           Over time, this trains attention and reduces reactivity.
-          Stay with one sensation at a time.
         </p>
       </>
     ),
@@ -33,6 +32,7 @@ const PAGES = [
       <>
          <p>Move slowly within the pad and observe how the sound changes.</p>
         <p>
+        Stay with one sensation at a time.
         You might begin with intensity, matching the sound to how strong a sensation is.
         Then notice movement, texture, spread, and any other qualities, adjusting the sound accordingly.
         </p>
@@ -93,10 +93,9 @@ function InstructionsModal({ isOpen, onClose }) {
           </span>
 
           <button
-            disabled={isLast}
-            onClick={() => setPageIndex(i => i + 1)}
+            onClick={() => isLast? handleClose() : setPageIndex(i => i + 1)}
           >
-            Next
+            {isLast ? "Close" : "Next"}
           </button>
         </div>
       </div>
