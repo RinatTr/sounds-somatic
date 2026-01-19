@@ -66,10 +66,10 @@ The audio graph is structured as a **hybrid mixer** with one core voice, multipl
                              │
               ┌──────────────┼──────────────┐
               │              │              │
-         ┌────▼─────┐  ┌─────▼──────┐ ┌───▼────────┐
-         │Open Path  │  │Pressure    │ │Distortion &│
-         │(Main)     │  │(Focused)   │ │Noise Buses │
-         └────┬─────┘  └─────┬──────┘ └───┬────────┘
+         ┌────▼─────┐  ┌─────▼──────┐   ┌───▼────────┐
+         │Open Path │  │Tension     │   │Distortion &│
+         │(Main)    │  │(Focused)   │   │Noise Buses │
+         └────┬─────┘  └─────┬──────┘   └───┬────────┘
               │              │              │
               └──────────────┼──────────────┘
                              │
@@ -79,8 +79,8 @@ The audio graph is structured as a **hybrid mixer** with one core voice, multipl
             └────────────────┬────────────────┘
                              │
                         ┌────▼─────────┐
-                        │ LFO (Motion)  │
-                        │ Master Gain   │
+                        │ LFO (Motion) │
+                        │ Master Gain  │
                         └────┬─────────┘
                              │
                         ┌────▼──────────┐
@@ -95,7 +95,7 @@ The audio graph is structured as a **hybrid mixer** with one core voice, multipl
 - Default routing with spatial effects
 - Emphasis increases moving right (more motion/modulation)
 
-**Pressure Path (Left)**
+**Tension Path (Left)**
 - Band-pass filtered for tonal focus
 - Resonance increases moving left (tighter, more resonant)
 - Blends with open path based on X position
