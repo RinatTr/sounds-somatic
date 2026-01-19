@@ -53,6 +53,9 @@ function XYController() {
         <div
           ref={padRef}
           className="xy-pad"
+          role="region"
+          aria-label="Sound exploration pad"
+          tabIndex="0"
           onPointerDown={handlePointerDown}
           onPointerMove={handlePointerMove}
           onPointerUp={handlePointerUp}
@@ -66,6 +69,7 @@ function XYController() {
               top: `${position.y}%`,
               opacity: isActive ? 1 : 0 
             }}
+            aria-hidden="true"
           />
           {!isActive && (
             <div className="instruction-text">

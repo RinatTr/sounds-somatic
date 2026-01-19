@@ -69,11 +69,23 @@ function InstructionsModal({ isOpen, onClose }) {
   const isLast = pageIndex === PAGES.length - 1
 
   return (
-    <div className="modal-overlay" onClick={onClose}>
+    <div  
+      className="modal-overlay" 
+      onClick={onClose}
+      role="dialog"
+      aria-modal="true"
+      aria-labelledby="modal-title"
+    >
       <div className="modal-card" onClick={(e) => e.stopPropagation()}>
         <div className="modal-header">
-          <span className="modal-title">{PAGES[pageIndex].title}</span>
-          <button className="modal-close" onClick={handleClose}>×</button>
+          <h2 className="modal-title">{PAGES[pageIndex].title}</h2>
+          <button 
+            className="modal-close" 
+            onClick={handleClose}
+            aria-label="Close instructions"
+            >
+              ×
+          </button>
         </div>
 
         <div className="modal-body">
