@@ -24,6 +24,17 @@
   width: 100%;
 }
 
+a {
+  color: rgba(255, 255, 255, 0.5);
+}
+
+footer a:visited {
+  color: rgba(255, 255, 255, 0.5);
+}
+
+footer a:hover {
+  color: #E8D196;
+}
 /* =========================
    CONTROLLER AREA
 ========================= */
@@ -139,10 +150,28 @@
   color: rgba(255, 255, 255, 0.3);
   position: fixed;
   bottom: 5px;
-  margin: 0 10px 0 10px;
   background-color: rgba(28, 28, 28, 0.8);
 }
 
+.support-container span {
+  font-size: 0.75rem;
+}
+
+.support-link {
+  margin-top: 2rem;
+  background: none;
+  font-size: 0.8rem;
+  letter-spacing: 0.2em;
+  color: rgba(255,255,255,0.7);
+  cursor: pointer;
+}
+
+.coffee-icon {
+  width: 16px;
+  height: 16px;
+  vertical-align:top;
+  margin-left: 0.3em;
+}
 /* =========================
    INSTRUCTIONS BUTTON
 ========================= */
@@ -157,6 +186,10 @@
   letter-spacing: 0.2em;
   color: rgba(255,255,255,0.7);
   cursor: pointer;
+}
+
+.instructions-button:hover {
+  border-color: #E8D196;
 }
 
 /* =========================
