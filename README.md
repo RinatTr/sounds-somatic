@@ -8,7 +8,7 @@ An interactive web application that explores the relationship between sound and 
 
 The XY controller maps physical movement to audio parameters in real-time, encouraging slow, intentional interaction and deeper awareness of how sound qualities mirror bodily sensations.
 
- - [Live Version](http://sounds-somatic.vercel.app)
+ - [Live Version](http://soundbody.space)
 
 ## 🏗️ Architecture
 
