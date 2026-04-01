@@ -3,9 +3,8 @@ import '../css/XYController.css'
 import SpatialAudioEngine from './SpatialAudioEngine'
 import * as Tone from 'tone';
 
-function XYController() {
+function XYController({isActive, setIsActive}) {
   const [position, setPosition] = useState({ x: 50, y: 50 })
-  const [isActive, setIsActive] = useState(false)
   const padRef = useRef(null)
 
   const handlePointerDown = (e) => {

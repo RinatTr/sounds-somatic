@@ -150,7 +150,36 @@ footer a:hover {
   color: rgba(255, 255, 255, 0.3);
   position: fixed;
   bottom: 5px;
+  left: 0;
+  right: 0;
+  
+  /* Centering Logic */
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+
   background-color: rgba(28, 28, 28, 0.8);
+  opacity: 0.45; /* Barely visible "watermark" state */
+  transition: opacity 2s ease-in-out; 
+  transition-delay: 3s; /* Wait before returning to "watermark" */
+}
+
+.footer-credits.is-active {
+  opacity: 0;
+  pointer-events: none; /* Can't click while practicing */
+  transition: opacity 0.2s ease; 
+  transition-delay: 0s;
+}
+
+/* Desktop Hover */
+@media (hover: hover) {
+  .footer-credits:hover {
+    opacity: 1;
+    transition: opacity 0.3s ease;
+    transition-delay: 0s;
+  }
 }
 
 .support-container span {

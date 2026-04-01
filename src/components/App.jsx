@@ -5,6 +5,7 @@ import InstructionsModal from './InstructionsModal'
 
 function App() {
   const [showInstructions, setShowInstructions] = useState(true)
+  const [isActive, setIsActive] = useState(false);
 
   return (
     <>
@@ -12,7 +13,7 @@ function App() {
         <div className="controller-wrapper">
           <div className="arrow-container">
             <div className="label-side label-left">TIGHT</div>
-            <XYController />
+            <XYController isActive={isActive} setIsActive={setIsActive} />
             <div className="label-side label-right">MOTION</div>
             <div className="label-pad label-top">INTENSE</div>
             <div className="label-pad label-bottom">EXPANSIVE</div>
@@ -32,7 +33,7 @@ function App() {
         onClose={() => setShowInstructions(false)}
       />
 
-      <footer className="footer-credits">
+      <footer className={`footer-credits ${isActive ? 'is-active' : ''}`}>
         <div
           className="support-container" 
           style={{ marginBottom: '5px' }}>
@@ -66,7 +67,7 @@ function App() {
           </a>
         </div>
         <div className="credits-content">
-          Created by Rinat Tregerman © 2026 •{' '}
+          Rinat Tregerman © 2026 •{' '}
           <a href="https://soundssomatic.carrd.co/">Learn more about the practice</a> 
         </div>
       </footer>
