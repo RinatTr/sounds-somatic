@@ -10,6 +10,10 @@ The XY controller maps physical movement to audio parameters in real-time, encou
 
  - [Live Version](http://soundbody.space)
 
+**Teaser:**
+
+![soundbody_teaser](https://github.com/user-attachments/assets/2a070bc2-660a-4c6a-b305-8f8a6e5cac79)
+
 ## 🏗️ Architecture
 
 ### Components
