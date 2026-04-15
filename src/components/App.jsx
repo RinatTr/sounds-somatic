@@ -1,4 +1,5 @@
 import { useState, Icon } from 'react'
+import { Analytics } from '@vercel/analytics/react'
 import '../css/App.css'
 import XYController from './XYController'
 import InstructionsModal from './InstructionsModal'
@@ -39,6 +40,8 @@ function App() {
           <a href="https://soundssomatic.carrd.co/">Learn more about the practice</a> 
         </div>
       </footer>
+
+      <Analytics />
     </>
   )
 }
