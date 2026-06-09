@@ -76,11 +76,9 @@ function InstructionsModal({ isOpen, onClose }) {
       aria-modal="true"
       aria-labelledby="modal-title"
     >
-      {/* Card — stops click bubbling to overlay */}
-      <div
-        className="w-[92%] max-w-[420px] rounded-[20px] bg-[linear-gradient(180deg,rgba(255,255,255,0.03),rgba(255,255,255,0.01))] backdrop-blur-xl shadow-[0_10px_40px_rgba(0,0,0,0.4)] animate-modal-in"
-        onClick={(e) => e.stopPropagation()}
-      >
+      {/* modal-card: gradient bg + blur defined in @layer components (purge-safe) */}
+      <div className="modal-card" onClick={(e) => e.stopPropagation()}>
+
         {/* Header */}
         <div className="flex justify-between items-center px-5 py-2">
           <h2
@@ -98,8 +96,8 @@ function InstructionsModal({ isOpen, onClose }) {
           </button>
         </div>
 
-        {/* Body */}
-        <div className="px-5 pb-4 [&_p]:text-[1.2rem] [&_p]:font-normal [&_p]:leading-[1.45] [&_p]:text-white/80 [&_p]:text-left [&_p]:m-0 [&_p+p]:mt-3">
+        {/* modal-body: p styles defined in @layer components (purge-safe) */}
+        <div className="modal-body px-5 pb-4">
           {PAGES[pageIndex].content}
         </div>
 
