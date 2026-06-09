@@ -1,56 +1,89 @@
-:root {
-  font-family: system-ui, Avenir, Helvetica, Arial, sans-serif;
-  line-height: 1.5;
-  font-weight: 400;
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
 
-  /* Visual theming moved to src/css/App.css */
-  color-scheme: light dark;
+@layer base {
+  :root {
+    background-color: #1c1c1c;
+    background-image:
+      radial-gradient(circle at 50% 40%, rgba(124, 185, 181, 0.1) 0%, transparent 60%),
+      radial-gradient(circle at 50% 80%, rgba(232, 209, 150, 0.05) 0%, transparent 50%);
+    min-height: 100vh;
+    color: white;
+    font-family: 'Inter', -apple-system, sans-serif;
+    color-scheme: dark;
+    font-synthesis: none;
+    text-rendering: optimizeLegibility;
+  }
 
-  font-synthesis: none;
-  text-rendering: optimizeLegibility;
+  body {
+    margin: 0;
+    min-width: 320px;
+    min-height: 100vh;
+    background: transparent;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+  }
+
+  #root {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+  }
 }
 
-a {
-  font-weight: 500;
-  color: #646cff;
-  text-decoration: inherit;
+@layer utilities {
+  /* writing-mode has no Tailwind equivalent — defined here so it
+     is treated as a purgeable utility and always included in production */
+  .label-vertical {
+    writing-mode: vertical-rl;
+    text-orientation: mixed;
+  }
 }
 
-
-
-body {
-  margin: 0;
-  display: flex;
-  place-items: center;
-  min-width: 320px;
-  min-height: 100vh;
-  background: transparent;
-  color: inherit;
-  font-family: inherit;
+@layer components {
+  /* Axis label shared styles — defined here so the scanner sees them
+     as a single named class rather than a JS-interpolated fragment */
+  .axis-label {
+    position: absolute;
+    font-size: 0.75rem;
+    font-weight: 500;
+    letter-spacing: 0.3em;
+    color: rgba(255, 255, 255, 0.6);
+    text-transform: uppercase;
+    pointer-events: none;
+    white-space: nowrap;
+  }
 }
 
-h1 {
-  font-size: 3.2em;
-  line-height: 1.1;
-}
+@layer components {
+  /* Modal styles extracted from JSX to guarantee they survive production purging.
+     Arbitrary bg gradients and [&_p]: variants are scanner-fragile in Tailwind v3. */
+  .modal-card {
+    width: 92%;
+    max-width: 420px;
+    border-radius: 20px;
+    background: linear-gradient(180deg, rgba(255,255,255,0.03), rgba(255,255,255,0.01));
+    backdrop-filter: blur(14px);
+    -webkit-backdrop-filter: blur(14px);
+    box-shadow: 0 10px 40px rgba(0,0,0,0.4);
+    animation: modalFadeIn 0.35s ease;
+  }
 
-button {
-  border-radius: 8px;
-  border: 1px solid transparent;
-  padding: 0.6em 1.2em;
-  font-size: 1em;
-  font-weight: 500;
-  font-family: inherit;
-  background-color: #1a1a1a;
-  cursor: pointer;
-  transition: border-color 0.25s;
-}
-button:hover {
-  border-color: #646cff;
-}
-button:focus,
-button:focus-visible {
-  outline: 4px auto -webkit-focus-ring-color;
-}
+  .modal-body p {
+    font-size: 1.2rem;
+    font-weight: 400;
+    line-height: 1.45;
+    color: rgba(255, 255, 255, 0.8);
+    text-align: left;
+    margin: 0;
+  }
 
-/* Light/dark overrides are in App.css */
+  .modal-body p + p {
+    margin-top: 0.75rem;
+  }
+}
