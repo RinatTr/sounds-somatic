@@ -1,56 +1,45 @@
-:root {
-  font-family: system-ui, Avenir, Helvetica, Arial, sans-serif;
-  line-height: 1.5;
-  font-weight: 400;
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
 
-  /* Visual theming moved to src/css/App.css */
-  color-scheme: light dark;
+@layer base {
+  :root {
+    /* Multi-stop radial gradient — no Tailwind equivalent */
+    background-color: #1c1c1c;
+    background-image:
+      radial-gradient(circle at 50% 40%, rgba(124, 185, 181, 0.1) 0%, transparent 60%),
+      radial-gradient(circle at 50% 80%, rgba(232, 209, 150, 0.05) 0%, transparent 50%);
+    min-height: 100vh;
+    color: white;
+    font-family: 'Inter', -apple-system, sans-serif;
+    color-scheme: dark;
+    font-synthesis: none;
+    text-rendering: optimizeLegibility;
+  }
 
-  font-synthesis: none;
-  text-rendering: optimizeLegibility;
+  body {
+    margin: 0;
+    min-width: 320px;
+    min-height: 100vh;
+    background: transparent;
+    /* Restore the original place-items: center vertical centering */
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+  }
+
+  #root {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+  }
+
+  /* Vertical writing mode — no Tailwind equivalent */
+  .label-vertical {
+    writing-mode: vertical-rl;
+    text-orientation: mixed;
+  }
 }
-
-a {
-  font-weight: 500;
-  color: #646cff;
-  text-decoration: inherit;
-}
-
-
-
-body {
-  margin: 0;
-  display: flex;
-  place-items: center;
-  min-width: 320px;
-  min-height: 100vh;
-  background: transparent;
-  color: inherit;
-  font-family: inherit;
-}
-
-h1 {
-  font-size: 3.2em;
-  line-height: 1.1;
-}
-
-button {
-  border-radius: 8px;
-  border: 1px solid transparent;
-  padding: 0.6em 1.2em;
-  font-size: 1em;
-  font-weight: 500;
-  font-family: inherit;
-  background-color: #1a1a1a;
-  cursor: pointer;
-  transition: border-color 0.25s;
-}
-button:hover {
-  border-color: #646cff;
-}
-button:focus,
-button:focus-visible {
-  outline: 4px auto -webkit-focus-ring-color;
-}
-
-/* Light/dark overrides are in App.css */
