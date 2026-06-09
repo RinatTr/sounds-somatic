@@ -6,12 +6,6 @@
   padding: 2rem;
 }
 
-.xy-controller h2 {
-  margin: 0;
-  font-size: 1.5rem;
-  color: #333;
-}
-
 .xy-pad {
   position: relative;
   width: 300px;
@@ -48,7 +42,7 @@
   left: 50%;
   transform: translate(-50%, -50%);
   color: rgba(255, 255, 255, 0.9);
-  font-size: 0.9rem;
+  font-size: 1.2rem;
   text-shadow: 0 0 15px rgba(0, 0, 0, 0.6);
   text-align: center;
   pointer-events: none;

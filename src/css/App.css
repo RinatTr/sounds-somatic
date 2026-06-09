@@ -1,7 +1,6 @@
 /* =========================
    ROOT / LAYOUT
 ========================= */
-
 :root {
   background-color: #1c1c1c; /* Deep charcoal */
   /* Subtle grain texture effect */
@@ -62,7 +61,7 @@ footer a:hover {
 
 .label-pad {
   position: absolute;
-  font-size: 0.7rem;
+  font-size: 0.9rem;
   font-weight: 500;
   letter-spacing: 0.3em;
   color: rgba(255, 255, 255, 0.7);
@@ -73,42 +72,30 @@ footer a:hover {
 
 .label-pad.label-top {
   top: -20px;
-  left: 50%;
-  transform: translateX(-50%);
 }
 
 .label-pad.label-bottom {
   bottom: -20px;
+}
+
+.label-top, .label-bottom {
   left: 50%;
   transform: translateX(-50%);
 }
 
-/* =========================
-   SIDE LABELS (Left/Right)
-========================= */
-
-.label-side {
-  position: absolute;
-  font-size: 0.7rem;
-  font-weight: 500;
-  letter-spacing: 0.3em;
-  color: rgba(255, 255, 255, 0.7);
-  text-transform: uppercase;
-  pointer-events: none;
+.label-left, .label-right {
   writing-mode: vertical-rl;
   text-orientation: mixed;
-  white-space: nowrap;
+  top: 50%;
 }
 
-.label-side.label-left {
+.label-pad.label-left {
   left: -20px;
-  top: 50%;
   transform: translateY(-50%) rotateZ(180deg);
 }
 
-.label-side.label-right {
+.label-pad.label-right {
   right: -20px;
-  top: 50%;
   transform: translateY(-50%);
 }
 
@@ -119,26 +106,22 @@ footer a:hover {
   }
 
   .label-pad {
-    font-size: 0.65rem;
+    font-size: 0.9rem;
   }
 
-  .label-pad.label-top {
+  .label-top {
     top: -12px;
   }
 
-  .label-pad.label-bottom {
+  .label-bottom {
     bottom: -12px;
   }
 
-  .label-side {
-    font-size: 0.6rem;
-  }
-
-  .label-side.label-left {
+  .label-left {
     left: -12px;
   }
 
-  .label-side.label-right {
+  .label-right {
     right: -12px;
   }
 }
@@ -211,7 +194,7 @@ footer a:hover {
   border: 1px solid rgba(255,255,255,0.15);
   border-radius: 14px;
   padding: 0.5rem 1rem;
-  font-size: 0.8rem;
+  font-size: 0.9rem;
   letter-spacing: 0.2em;
   color: rgba(255,255,255,0.7);
   cursor: pointer;
@@ -233,5 +216,55 @@ footer a:hover {
   to {
     opacity: 1;
     transform: translateY(0) scale(1);
+  }
+}
+
+/* Consolidated global/theme rules (moved from src/index.css) */
+
+/* Link defaults used across the app */
+a {
+  font-weight: 500;
+  color: rgba(255, 255, 255, 0.5);
+  text-decoration: inherit;
+}
+
+a:hover {
+  color: #E8D196;
+}
+
+/* Shared button basics */
+button {
+  border-radius: 8px;
+  border: 1px solid transparent;
+  padding: 0.6em 1.2em;
+  font-size: 1em;
+  font-weight: 500;
+  font-family: inherit;
+  background-color: #1a1a1a;
+  cursor: pointer;
+  transition: border-color 0.25s;
+}
+
+button:hover {
+  border-color: #646cff;
+}
+
+button:focus,
+button:focus-visible {
+  outline: 4px auto -webkit-focus-ring-color;
+}
+
+@media (prefers-color-scheme: light) {
+  :root {
+    color: #213547;
+    background-color: #ffffff;
+  }
+
+  a:hover {
+    color: #747bff;
+  }
+
+  button {
+    background-color: #f9f9f9;
   }
 }

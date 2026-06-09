@@ -12,9 +12,9 @@ function App() {
       <main className="container">
         <div className="controller-wrapper">
           <div className="arrow-container">
-            <div className="label-side label-left">TIGHT</div>
+            <div className="label-pad label-left">TIGHT</div>
             <XYController isActive={isActive} setIsActive={setIsActive} />
-            <div className="label-side label-right">MOTION</div>
+            <div className="label-pad label-right">MOTION</div>
             <div className="label-pad label-top">INTENSE</div>
             <div className="label-pad label-bottom">EXPANSIVE</div>
           </div>
