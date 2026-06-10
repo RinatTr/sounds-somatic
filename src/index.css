@@ -1,56 +1,92 @@
-:root {
-  font-family: system-ui, Avenir, Helvetica, Arial, sans-serif;
-  line-height: 1.5;
-  font-weight: 400;
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
 
-  /* Visual theming moved to src/css/App.css */
-  color-scheme: light dark;
+/* ─── Base layer overrides ──────────────────────────────────────────── */
+@layer base {
+  :root {
+    font-synthesis: none;
+    text-rendering: optimizeLegibility;
+    -webkit-font-smoothing: antialiased;
+    color-scheme: dark;
+  }
 
-  font-synthesis: none;
-  text-rendering: optimizeLegibility;
+  html, body {
+    margin: 0;
+    padding: 0;
+    min-height: 100vh;
+  }
+
+  body {
+    @apply bg-void text-on-surface font-sans;
+    overflow-x: hidden;
+  }
+
+  #root {
+    @apply min-h-screen flex flex-col;
+  }
 }
 
-a {
-  font-weight: 500;
-  color: #646cff;
-  text-decoration: inherit;
+/* ─── Components layer: stateful classes that are hard to express inline ── */
+@layer components {
+  /*
+   * Footer watermark: barely visible, fades back on hover,
+   * disappears entirely while the pad is active.
+   * The transition logic requires two different delay+duration pairs
+   * depending on state, which is cleaner here than in JSX.
+   */
+  .footer-credits {
+    @apply fixed bottom-0 left-0 right-0 z-10;
+    @apply flex flex-col items-center justify-center text-center;
+    @apply py-2 px-4;
+    @apply font-mono text-[0.7rem] text-white/30;
+    background-color: rgba(11, 13, 23, 0.8);
+    opacity: 1;
+    transition: opacity 2s ease-in-out 3s; /* slow fade back to watermark */
+  }
+
+  .footer-credits.is-active {
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.2s ease 0s;
+  }
+
+  @media (hover: hover) {
+    .footer-credits:hover {
+      opacity: 1;
+      transition: opacity 0.3s ease 0s;
+    }
+  }
 }
 
+/* ─── Utilities layer: custom classes not easily expressed inline ────── */
+@layer utilities {
+  /* Glass-panel card style used by the modal */
+  .glass-panel {
+    background: rgba(22, 25, 37, 0.45);
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+    border: 1px solid rgba(255, 255, 255, 0.08);
+  }
 
+  /* The practice pad: deep space radial gradient */
+  .practice-pad-bg {
+    background: radial-gradient(circle at 50% 50%, #331f80 0%, #11131d 80%);
+  }
 
-body {
-  margin: 0;
-  display: flex;
-  place-items: center;
-  min-width: 320px;
-  min-height: 100vh;
-  background: transparent;
-  color: inherit;
-  font-family: inherit;
-}
+  /* Inset violet glow on the pad */
+  /* .inner-glow-violet {
+    box-shadow: inset 0 0 28px rgba(157, 141, 241, 0.15);
+  } */
 
-h1 {
-  font-size: 3.2em;
-  line-height: 1.1;
-}
+  /* Active-state inset glow */
+  .pad-active-glow {
+    box-shadow: inset 0 0 40px rgba(157, 141, 241, 0.2);
+  }
 
-button {
-  border-radius: 8px;
-  border: 1px solid transparent;
-  padding: 0.6em 1.2em;
-  font-size: 1em;
-  font-weight: 500;
-  font-family: inherit;
-  background-color: #1a1a1a;
-  cursor: pointer;
-  transition: border-color 0.25s;
+  /* Cursor ring glow */
+  /* .cursor-glow {
+    box-shadow: 0 0 15px rgba(255, 255, 255, 0.45),
+                inset 0 0 10px rgba(255, 255, 255, 0.2);
+  } */
 }
-button:hover {
-  border-color: #646cff;
-}
-button:focus,
-button:focus-visible {
-  outline: 4px auto -webkit-focus-ring-color;
-}
-
-/* Light/dark overrides are in App.css */
