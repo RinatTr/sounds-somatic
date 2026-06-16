@@ -5,21 +5,8 @@ const PAGES = [
     title: 'Welcome',
     content: (
       <>
-        <p>This is a sound-guided mindfulness tool.</p>
-        <p>Sound is used to explore sensations as they arise.</p>
-        <p>You may stop at any time.</p>
-      </>
-    ),
-  },
-  {
-    title: 'The Idea',
-    content: (
-      <>
-        <p>
-          Sound and sensation share physical qualities. Focus on a sensation,
-          and adjust the sound until it describes it as closely as possible.
-        </p>
-        <p>Over time, this trains attention and reduces reactivity.</p>
+        <p>This is a space for exploring sensation with sound.</p>
+        <p>Take your time. You can stop whenever you like.</p>
       </>
     ),
   },
@@ -27,12 +14,12 @@ const PAGES = [
     title: 'Using the Pad',
     content: (
       <>
-        <p>Move slowly within the pad and observe how the sound changes.</p>
+        <p>Move slowly in the pad and notice how the sound changes.</p>
         <p>
-          Stay with one sensation at a time. You might begin with intensity,
-          matching the sound to how strong a sensation is. Then notice movement,
-          texture, spread, and any other qualities, adjusting the sound
-          accordingly.
+          Find a sensation somewhere in the body and adjust the sound until it
+          feels like it belongs there. You might start with intensity, how strong
+          something feels, then move into texture, spread, movement, whatever
+          else is present. One sensation at a time.
         </p>
       </>
     ),
@@ -41,15 +28,11 @@ const PAGES = [
     title: 'Notes',
     content: (
       <>
-        <p>
-          Like in Vipassana, sound is used to detect, discern, and stay with
-          sensations.
-        </p>
-        <p>The labels are only suggestions.</p>
+        <p>The labels on the pad are only suggestions.</p>
         <p>
           <i>
-            Best experienced with speakers in a quiet room, or headphones. To
-            hear audio on iOS 16 or older, ensure silent mode is off.
+            Best heard through speakers in a quiet room, or headphones. On iOS 16
+            or older, silent mode will need to be off for audio to play.
           </i>
         </p>
       </>
