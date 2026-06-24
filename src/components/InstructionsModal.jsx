@@ -1,48 +1,8 @@
 import { useState } from 'react'
 
-const PAGES = [
-  {
-    title: 'Welcome',
-    content: (
-      <>
-        <p>This is a space for exploring sensation with sound.</p>
-        <p>Take your time. You can stop whenever you like.</p>
-      </>
-    ),
-  },
-  {
-    title: 'Using the Pad',
-    content: (
-      <>
-        <p>Move slowly in the pad and notice how the sound changes.</p>
-        <p>
-          Find a sensation somewhere in the body and adjust the sound until it
-          feels like it belongs there. You might start with intensity, how strong
-          something feels, then move into texture, spread, movement, whatever
-          else is present. One sensation at a time.
-        </p>
-      </>
-    ),
-  },
-  {
-    title: 'Notes',
-    content: (
-      <>
-        <p>The labels on the pad are only suggestions.</p>
-        <p>
-          <i>
-            Best heard through speakers in a quiet room, or headphones. On iOS 16
-            or older, silent mode will need to be off for audio to play.
-          </i>
-        </p>
-      </>
-    ),
-  },
-]
-
-function InstructionsModal({ isOpen, onClose }) {
+function InstructionsModal({ isOpen, onClose, PAGES }) {
   const [pageIndex, setPageIndex] = useState(0)
-
+  console.log("PAGES", PAGES)
   const handleClose = () => {
     setPageIndex(0)
     onClose()
@@ -109,7 +69,9 @@ function InstructionsModal({ isOpen, onClose }) {
         {/* Body */}
         <div className="
           px-5 pb-4
-          [&_p]:font-sans [&_p]:text-[1.15rem] [&_p]:leading-[1.45]
+          [&_p]:font-sans 
+          [&_p]:leading-[1.45]
+          [&_p]:text-[clamp(1rem,3vw,1.25rem)]
           [&_p]:text-white/80 [&_p]:text-left
           [&_p+p]:mt-3
         ">
