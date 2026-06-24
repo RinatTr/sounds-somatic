@@ -74,6 +74,7 @@ function InstructionsModal({ isOpen, onClose, PAGES }) {
           [&_p]:text-[clamp(1rem,3vw,1.25rem)]
           [&_p]:text-white/80 [&_p]:text-left
           [&_p+p]:mt-3
+          overflow-y-auto max-h-[calc(100vh-200px)]
         ">
           {PAGES[pageIndex].content}
         </div>
