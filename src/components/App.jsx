@@ -115,7 +115,7 @@ function App() {
               "
               onClick={() => setShowInstructions(true)}
             >
-              Quick Start
+              How to Use
             </button>
             <button
               className="

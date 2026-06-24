@@ -42,7 +42,7 @@ export const PAGES = Object.freeze({
   ],
   DEEP_DIVE: [
   {
-    title: 'The Threshold',
+    title: 'The Mindset',
     content: (
       <>
         <p>You don't have to understand any of the following, only notice.</p>
@@ -99,7 +99,7 @@ export const PAGES = Object.freeze({
     ),
   },
   {
-    title: 'What Sound Does',
+    title: 'Sound Access',
     content: (
       <>
         <p>
@@ -112,7 +112,7 @@ export const PAGES = Object.freeze({
           forcing anything. Just present.
         </p>
         <p>
-          (There's a name for this in the research, entrainment, the way
+          (There's a name for this in research, entrainment, the way
           external rhythms can find their way into the body's own patterns. But
           you've probably felt it already, whenever music held you in a
           particular quality of presence without your choosing it.)
@@ -147,7 +147,7 @@ export const PAGES = Object.freeze({
     ),
   },
   {
-    title: 'What Remains',
+    title: 'Resting in the Merge',
     content: (
       <>
         <p>
