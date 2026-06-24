@@ -153,7 +153,7 @@ function App() {
       <InstructionsModal isOpen={showInstructions} onClose={() => setShowInstructions(false)} PAGES={PAGES.INSTRUCTIONS} />
       <InstructionsModal isOpen={showDeepDive} onClose={() => setShowDeepDive(false)} PAGES={PAGES.DEEP_DIVE} />
 
-      <footer className={`footer-credits ${isActive ? 'is-active' : ''}`}>
+      <footer className={`footer-credits hide-on-active ${isActive ? 'is-active' : ''}`}>
         Rinat Tregerman © 2026
       </footer>
 
