@@ -9,32 +9,72 @@ import { PAGES } from '../utils/modalContent'
 //   hot      — the radial gradient's bright center (follows cursor)
 //   dark     — the gradient's outer edge (always near #11131d)
 //   ring     — border color of the cursor ring
+
 export const COLOR_THEMES = [
   {
     id: 'violet',
     label: 'Violet',
     swatch: '#9D8DF1',
-    hot:  '#331f80',
+    hot: '#331f80',
     dark: '#11131d',
     ring: 'rgba(255,255,255,0.9)',
   },
+
+  {
+    id: 'indigo',
+    label: 'Midnight Indigo',
+    swatch: '#3D5A80',
+    hot: '#1B263B',
+    dark: '#0D1B2A',
+    ring: 'rgba(152,193,217,0.9)',
+  },
+
+  {
+    id: 'petrol',
+    label: 'Petrol & Ink',
+    swatch: '#005F6B',
+    hot: '#002B36',
+    dark: '#001217',
+    ring: 'rgba(0,163,181,0.9)',
+  },
+
+  {
+    id: 'moonfog',
+    label: 'Moonlit Fog',
+    swatch: '#D1D9E6',
+    hot: '#2F3E46',
+    dark: '#1A2126',
+    ring: 'rgba(255,255,255,0.9)',
+  },
+
+  {
+    id: 'moss',
+    label: 'Moss & Shadow',
+    swatch: '#9CAF88',
+    hot: '#2A3624',
+    dark: '#0F140D',
+    ring: 'rgba(193,209,184,0.9)',
+  },
+
   {
     id: 'sage',
     label: 'Sage',
     swatch: '#a8d5b5',
-    hot:  '#1a3d2b',
+    hot: '#1a3d2b',
     dark: '#0e1a14',
     ring: 'rgba(168,213,181,0.9)',
   },
+
   {
     id: 'ember',
     label: 'Ember',
     swatch: '#f0b985',
-    hot:  '#3d2010',
+    hot: '#3d2010',
     dark: '#1a0f08',
     ring: 'rgba(240,185,133,0.9)',
   },
 ]
+
 
 function App() {
   const [showInstructions, setShowInstructions] = useState(true)
@@ -52,7 +92,7 @@ function App() {
       </div>
 
       <main className="flex-grow flex flex-col items-center justify-center px-4 py-8">
-        <div className="flex flex-col items-center gap-8">
+        <div className="flex flex-col items-center gap-6">
 
           {/* Pad + directional labels */}
           <div className="relative flex items-center justify-center">
@@ -101,7 +141,7 @@ function App() {
             <XYController isActive={isActive} setIsActive={setIsActive} theme={theme}/>
           </div>
         {/* Container for modal buttons, positioned centered, side by side */}
-          <div className="flex gap-4">
+          <div className="flex gap-4 mt-2">
             <button
               className="
                 mt-6
@@ -135,31 +175,42 @@ function App() {
           </div>
 
            {/* Color swatches */}
-                    <div className="flex items-center gap-10" role="group" aria-label="Color theme">
-                      {COLOR_THEMES.map(t => (
-                        <button
-                          key={t.id}
-                          onClick={() => setThemeId(t.id)}
-                          aria-label={`${t.label} theme`}
-                          aria-pressed={themeId === t.id}
-                          className="
-                            w-6 h-6 rounded-full
-                            transition-[transform,box-shadow,opacity] duration-200
-                            cursor-pointer border-0 p-0
-                            focus-visible:outline focus-visible:outline-2 focus-visible:outline-white/50
-                          "
-                          style={{
-                            background: t.swatch,
-                            opacity: themeId === t.id ? 1 : 0.35,
-                            transform: themeId === t.id ? 'scale(1.15)' : 'scale(1)',
-                            boxShadow: themeId === t.id
-                              ? `0 0 10px ${t.glow}`
-                              : 'none',
-                          }}
-                        />
-                      ))}
-                    </div>
-
+          <div
+            className="
+              p-[2px]
+              flex items-center gap-8
+              max-w-[140px]
+              overflow-x-scroll
+              scrollbar-none
+              h-10
+            "
+            role="group"
+            aria-label="Color theme"
+          >
+            {COLOR_THEMES.map(t => (
+              <button
+                key={t.id}
+                onClick={() => setThemeId(t.id)}
+                aria-label={`${t.label} theme`}
+                aria-pressed={themeId === t.id}
+                className="
+                  w-6 h-6 rounded-full
+                  flex-shrink-0
+                  transition-[transform,box-shadow,opacity] duration-200
+                  cursor-pointer border-0 p-0
+                  focus-visible:outline focus-visible:outline-2 focus-visible:outline-white/50
+                "
+                style={{
+                  background: t.swatch,
+                  opacity: themeId === t.id ? 1 : 0.35,
+                  transform: themeId === t.id ? 'scale(1.15)' : 'scale(1)',
+                  boxShadow: themeId === t.id
+                    ? `0 0 10px ${t.glow}`
+                    : 'none',
+                }}
+              />
+            ))}
+          </div>
         </div>
       </main>
 
