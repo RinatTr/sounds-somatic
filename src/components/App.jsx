@@ -141,7 +141,7 @@ function App() {
             <XYController isActive={isActive} setIsActive={setIsActive} theme={theme}/>
           </div>
         {/* Container for modal buttons, positioned centered, side by side */}
-          <div className="flex gap-4 mt-2">
+          <div className={`flex gap-4 mt-2 ${isActive ? 'is-active' : ''}`}>
             <button
               className="
                 mt-6
@@ -176,14 +176,14 @@ function App() {
 
            {/* Color swatches */}
           <div
-            className="
+            className={`
               p-[2px]
               flex items-center gap-8
               max-w-[140px]
               overflow-x-scroll
               scrollbar-none
               h-10
-            "
+              ${isActive ? 'is-active' : ''}`}
             role="group"
             aria-label="Color theme"
           >
@@ -226,7 +226,7 @@ function App() {
         />
 
       {/* Footer — fades to watermark, hover restores, hides while pad is active */}
-      <footer className={`footer-credits ${isActive ? 'is-active' : ''}`}>
+      <footer className={`footer-credits hide-on-active ${isActive ? 'is-active' : ''}`}>
         Rinat Tregerman © 2026
       </footer>
 
