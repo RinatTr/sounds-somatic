@@ -62,6 +62,14 @@
   }
 }
 
+.scrollbar-none::-webkit-scrollbar {
+  display: none; /* Safari and Chrome */
+}
+.scrollbar-none {
+  -ms-overflow-style: none;  /* IE and Edge */
+  scrollbar-width: none;  /* Firefox */
+}
+
 /* ─── Utilities layer: custom classes not easily expressed inline ────── */
 @layer utilities {
   /* Glass-panel card style used by the modal */
