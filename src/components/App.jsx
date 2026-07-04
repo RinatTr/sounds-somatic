@@ -79,10 +79,10 @@ function App() {
             <span className="absolute -bottom-10 font-sans text-[0.8rem] tracking-[0.25em] uppercase text-outline pointer-events-none select-none">
               EXPANSIVE
             </span>
-            <span className="absolute -left-16 font-sans text-[0.8rem] tracking-[0.25em] uppercase text-outline pointer-events-none select-none -rotate-90 origin-center">
+            <span className="absolute -left-16 font-sans text-[0.8rem] tracking-[0.25em] uppercase text-outline pointer-events-none select-none -rotate-90 origin-center ml-1">
               TIGHT
             </span>
-            <span className="absolute -right-16 font-sans text-[0.8rem] tracking-[0.25em] uppercase text-outline pointer-events-none select-none rotate-90 origin-center">
+            <span className="absolute -right-16 font-sans text-[0.8rem] tracking-[0.25em] uppercase text-outline pointer-events-none select-none rotate-90 origin-center -mr-1">
               MOTION
             </span>
 
@@ -90,7 +90,7 @@ function App() {
           </div>
 
           {/* Container for modal buttons */}
-          <div className="flex gap-4 mt-2">
+          <div className="flex gap-4 mt-2 w-full justify-around">
             <button
               className="mt-6 bg-transparent border border-white/15 rounded-[14px] px-5 py-2 font text-[0.75rem] tracking-[0.2em] uppercase text-on-surface-variant cursor-pointer transition-colors duration-200 focus-visible:outline focus-visible:outline-2 focus-visible:outline-violet"
               onClick={() => setShowInstructions(true)}
