@@ -2,11 +2,15 @@ import { useState, useRef, useCallback, useEffect } from 'react'
 import SpatialAudioEngine from './SpatialAudioEngine'
 import * as Tone from 'tone'
 
-function XYController({ isActive, setIsActive, theme }) {
+function XYController({ isActive, setIsActive, theme, isSustaining }) {
   const [position, setPosition] = useState({ x: 50, y: 50 })
+  // Tracks literal physical contact with the pad, independent of `isActive`.
+  // Needed because sustain mode keeps `isActive` true after release, so
+  // `isActive` alone can no longer answer "is a pointer actually down?"
+  const [isPressed, setIsPressed] = useState(false)
   const padRef = useRef(null)
 
-   // Build the gradient string from the current theme
+  // Build the gradient string from the current theme
   const buildGradient = useCallback((x, y) =>
     `radial-gradient(circle at ${x}% ${y}%, ${theme.hot} 0%, ${theme.dark} 100%)`,
   [theme])
@@ -17,7 +21,7 @@ function XYController({ isActive, setIsActive, theme }) {
       padRef.current.style.background = buildGradient(50, 50)
     }
   }, [theme, buildGradient])
-  
+
   // Update both the React state (for the audio engine) AND the pad's
   // inline background so the gradient follows the cursor without a re-render cycle.
   const updatePosition = useCallback((e) => {
@@ -44,6 +48,9 @@ function XYController({ isActive, setIsActive, theme }) {
     if (navigator.audioSession) {
       navigator.audioSession.type = 'playback'
     }
+    setIsPressed(true)
+    // Always true on press — this covers both a fresh touch and resuming
+    // control of an already-sustaining sound; either way the pad is "live."
     setIsActive(true)
     if (Tone.getContext().state !== 'running') {
       Tone.start()
@@ -51,16 +58,35 @@ function XYController({ isActive, setIsActive, theme }) {
   }, [updatePosition, setIsActive])
 
   const handlePointerMove = useCallback((e) => {
-    if (!isActive) return
+    // Gate on physical contact, not `isActive` — while sustaining after
+    // release, `isActive` is still true but hover/move must do nothing.
+    if (!isPressed) return
     e.preventDefault()
     updatePosition(e)
-  }, [isActive, updatePosition])
+  }, [isPressed, updatePosition])
 
   const handlePointerUp = useCallback((e) => {
     e.preventDefault()
     padRef.current.releasePointerCapture(e.pointerId)
-    setIsActive(false)
-  }, [setIsActive])
+    setIsPressed(false)
+
+    // Sustain off: release stops the sound, same as before.
+    // Sustain on: release freezes `position` and leaves `isActive` true —
+    // the sound keeps playing at the last touched point.
+    if (!isSustaining) {
+      setIsActive(false)
+    }
+  }, [isSustaining, setIsActive])
+
+  // Reacts to the sustain toggle itself (not a pointer event, so it needs
+  // its own effect). If sustain is switched off while nothing is pressed,
+  // stop the sustained sound immediately. If something IS pressed when it's
+  // switched off, do nothing here — handlePointerUp stops it on release.
+  useEffect(() => {
+    if (!isSustaining && !isPressed) {
+      setIsActive(false)
+    }
+  }, [isSustaining, isPressed, setIsActive])
 
   // Cursor ring + glow derived from theme
   const cursorStyle = {
@@ -110,7 +136,9 @@ function XYController({ isActive, setIsActive, theme }) {
           onContextMenu={(e) => e.preventDefault()}
         >
 
-          {/* Cursor ring — only visible while active */}
+          {/* Cursor ring — visible only while physically pressed. Hidden
+              while passively sustaining after release, even though isActive
+              is still true. */}
           <div
             aria-hidden="true"
             className={`
@@ -119,13 +147,14 @@ function XYController({ isActive, setIsActive, theme }) {
               border-2 border-white
               flex items-center justify-center
               pointer-events-none
-              ${isActive ? 'opacity-90' : 'opacity-0'}
+              ${isPressed ? 'opacity-90' : 'opacity-0'}
             `}
             style={cursorStyle}
           >
           </div>
 
-          {/* Idle instruction text */}
+          {/* Idle instruction text — hidden by isActive, which correctly
+              stays true (and so keeps this hidden) throughout a sustain. */}
           {!isActive && (
             <div
               className="

@@ -18,6 +18,7 @@ function App() {
   const [showInstructions, setShowInstructions] = useState(true)
   const [showDeepDive, setShowDeepDive] = useState(false)
   const [isActive, setIsActive] = useState(false)
+  const [isSustaining, setIsSustaining] = useState(false)
   const [themeId, setThemeId] = useState('violet')
 
   // Drag tracking refs
@@ -86,7 +87,7 @@ function App() {
               MOTION
             </span>
 
-            <XYController isActive={isActive} setIsActive={setIsActive} theme={theme}/>
+            <XYController isSustaining={isSustaining} isActive={isActive} setIsActive={setIsActive} theme={theme}/>
           </div>
 
           {/* Container for modal buttons */}
@@ -147,6 +148,32 @@ function App() {
               />
             ))}
           </div>
+          <button
+            type="button"
+            onClick={() => setIsSustaining(prev => !prev)}
+            aria-pressed={isSustaining}
+            className={`
+              flex items-center gap-2
+              bg-transparent border-0
+              px-3 py-2
+              text-[0.6rem]
+              tracking-[0.22em] uppercase
+              ${isSustaining ? 'text-white/70' : 'text-white/20'}
+              cursor-pointer
+              focus-visible:outline focus-visible:outline-2
+              focus-visible:outline-violet
+            `}
+          >
+            <span
+              className={`w-2 h-2 rounded-full ${
+                isSustaining
+                  ? 'bg-white/70 shadow-[0_0_8px_-white/70]'
+                  : 'bg-white/20'
+              }`}
+            />
+
+            Sustain Mode {isSustaining ? 'On' : 'Off'}
+        </button>
         </div>
       </main>
 
