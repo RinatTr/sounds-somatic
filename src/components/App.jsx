@@ -1,7 +1,12 @@
-import { useState, useRef, useEffect } from 'react'
+import { useState, useRef, useEffect, useCallback } from 'react'
 import { Analytics } from '@vercel/analytics/react'
 import XYController from './XYController'
 import InstructionsModal from './InstructionsModal'
+import PromptPanel from './PromptPanel'
+import PracticeControls from './PracticeControls'
+import PracticeSelector from './PracticeSelector'
+import { usePracticeRunner } from './usePracticeRunner'
+import { PRACTICES } from './practices'
 import { PAGES } from '../utils/modalContent'
 
 export const COLOR_THEMES = [
@@ -21,6 +26,10 @@ function App() {
   const [isSustaining, setIsSustaining] = useState(false)
   const [themeId, setThemeId] = useState('violet')
 
+  // null = free play, otherwise a practice id from PRACTICES
+  const [practiceId, setPracticeId] = useState(null)
+  const practice = PRACTICES.find((p) => p.id === practiceId) ?? null
+
   // Drag tracking refs
   const scrollRef = useRef(null)
   const isDown = useRef(false)
@@ -29,6 +38,24 @@ function App() {
   const hasMoved = useRef(false)
 
   const theme = COLOR_THEMES.find(t => t.id === themeId)
+
+  const handlePracticeComplete = useCallback(() => {
+    setPracticeId(null)
+  }, [])
+
+  const { currentStep, dispatch, isPadInteractive } = usePracticeRunner(practice, {
+    setIsActive,
+    setIsSustaining,
+    onComplete: handlePracticeComplete,
+  })
+
+  const handleSelectPractice = useCallback((id) => {
+    // Force sound off before switching — covers leaving a practice mid-flow
+    // (to free play or to a different practice) as well as entering one.
+    setIsActive(false)
+    setIsSustaining(false)
+    setPracticeId(id)
+  }, [])
 
   const handleMouseDown = (e) => {
     isDown.current = true
@@ -45,7 +72,6 @@ function App() {
       if (Math.abs(deltaX) > 4) {
         hasMoved.current = true
       }
-      
       scrollRef.current.scrollLeft = scrollLeft.current - deltaX * 1.5
     }
 
@@ -72,108 +98,137 @@ function App() {
       <main className="flex-grow flex flex-col items-center justify-center px-4 py-8">
         <div className="flex flex-col items-center gap-6">
 
+          {practice && (
+            <PromptPanel
+              prompt={currentStep?.prompt}
+              secondaryPrompt={currentStep?.secondaryPrompt}
+            />
+          )}
+
           {/* Pad + directional labels */}
           <div className="relative flex items-center justify-center">
-            <span className="absolute -top-10 font-sans text-[0.8rem] tracking-[0.25em] uppercase text-outline pointer-events-none select-none">
-              INTENSE
-            </span>
-            <span className="absolute -bottom-10 font-sans text-[0.8rem] tracking-[0.25em] uppercase text-outline pointer-events-none select-none">
-              EXPANSIVE
-            </span>
-            <span className="absolute -left-16 font-sans text-[0.8rem] tracking-[0.25em] uppercase text-outline pointer-events-none select-none -rotate-90 origin-center ml-1">
-              TIGHT
-            </span>
-            <span className="absolute -right-16 font-sans text-[0.8rem] tracking-[0.25em] uppercase text-outline pointer-events-none select-none rotate-90 origin-center -mr-1">
-              MOTION
-            </span>
+            {!practice && (
+              <>
+                <span className="absolute -top-10 font-sans text-[0.8rem] tracking-[0.25em] uppercase text-outline pointer-events-none select-none">
+                  INTENSE
+                </span>
+                <span className="absolute -bottom-10 font-sans text-[0.8rem] tracking-[0.25em] uppercase text-outline pointer-events-none select-none">
+                  EXPANSIVE
+                </span>
+                <span className="absolute -left-16 font-sans text-[0.8rem] tracking-[0.25em] uppercase text-outline pointer-events-none select-none -rotate-90 origin-center ml-1">
+                  TIGHT
+                </span>
+                <span className="absolute -right-16 font-sans text-[0.8rem] tracking-[0.25em] uppercase text-outline pointer-events-none select-none rotate-90 origin-center -mr-1">
+                  MOTION
+                </span>
+              </>
+            )}
 
-            <XYController isSustaining={isSustaining} isActive={isActive} setIsActive={setIsActive} theme={theme}/>
-          </div>
-
-          {/* Container for modal buttons */}
-          <div className="flex gap-4 mt-2 w-full justify-around">
-            <button
-              className="mt-6 bg-transparent border border-white/15 rounded-[14px] px-5 py-2 font text-[0.75rem] tracking-[0.2em] uppercase text-on-surface-variant cursor-pointer transition-colors duration-200 focus-visible:outline focus-visible:outline-2 focus-visible:outline-violet"
-              onClick={() => setShowInstructions(true)}
-            >
-              How to Use
-            </button>
-            <button
-              className="mt-6 bg-transparent border border-white/15 rounded-[14px] px-5 py-2 font text-[0.75rem] tracking-[0.2em] uppercase text-on-surface-variant cursor-pointer transition-colors duration-200 focus-visible:outline focus-visible:outline-2 focus-visible:outline-violet"
-              onClick={() => setShowDeepDive(true)}
-            >
-              Deeper Dive
-            </button>
-          </div>
-
-          {/* Color swatches */}
-          <div
-            ref={scrollRef}
-            onMouseDown={handleMouseDown}
-            onDragStart={(e) => e.preventDefault()}
-            className="
-              p-[2px]
-              flex items-center gap-8
-              max-w-[140px]
-              overflow-x-scroll
-              scrollbar-none
-              h-10
-              cursor-grab active:cursor-grabbing select-none
-            "
-            role="group"
-            aria-label="Color theme"
-          >
-            {COLOR_THEMES.map(t => (
-              <button
-                key={t.id}
-                onClick={() => {
-                  if (hasMoved.current) return
-                  setThemeId(t.id)
-                }}
-                aria-label={`${t.label} theme`}
-                aria-pressed={themeId === t.id}
-                className="
-                  w-6 h-6 rounded-full
-                  flex-shrink-0
-                  transition-[transform,box-shadow,opacity] duration-200
-                  cursor-pointer border-0 p-0
-                  focus-visible:outline focus-visible:outline-2 focus-visible:outline-white/50
-                "
-                style={{
-                  background: t.swatch,
-                  opacity: themeId === t.id ? 1 : 0.35,
-                  transform: themeId === t.id ? 'scale(1.15)' : 'scale(1)',
-                  boxShadow: 'none',
-                }}
-              />
-            ))}
-          </div>
-          <button
-            type="button"
-            onClick={() => setIsSustaining(prev => !prev)}
-            aria-pressed={isSustaining}
-            className={`
-              flex items-center gap-2
-              bg-transparent border-0
-              px-3 py-2
-              text-[0.6rem]
-              tracking-[0.22em] uppercase
-              ${isSustaining ? 'text-white/70' : 'text-white/20'}
-              cursor-pointer
-              focus-visible:outline focus-visible:outline-2
-              focus-visible:outline-violet
-            `}
-          >
-            <span
-              className={`w-2 h-2 rounded-full ${
-                isSustaining
-                  ? 'bg-white/70 shadow-[0_0_8px_-white/70]'
-                  : 'bg-white/20'
-              }`}
+            <XYController
+              isSustaining={isSustaining}
+              isActive={isActive}
+              setIsActive={setIsActive}
+              theme={theme}
+              disabled={practice ? !isPadInteractive : false}
+              onPadTouch={practice ? () => dispatch('padTouch') : undefined}
+              onPadRelease={practice ? () => dispatch('padRelease') : undefined}
             />
+          </div>
 
-            Sustain Mode {isSustaining ? 'On' : 'Off'}
-        </button>
+          {practice && (
+            <PracticeControls controls={currentStep?.controls} onEvent={dispatch} />
+          )}
+
+          {!practice && (
+            <>
+              {/* Container for modal buttons */}
+              <div className="flex gap-4 mt-2 w-full justify-around">
+                <button
+                  className="mt-6 bg-transparent border border-white/15 rounded-[14px] px-5 py-2 font text-[0.75rem] tracking-[0.2em] uppercase text-on-surface-variant cursor-pointer transition-colors duration-200 focus-visible:outline focus-visible:outline-2 focus-visible:outline-violet"
+                  onClick={() => setShowInstructions(true)}
+                >
+                  How to Use
+                </button>
+                <button
+                  className="mt-6 bg-transparent border border-white/15 rounded-[14px] px-5 py-2 font text-[0.75rem] tracking-[0.2em] uppercase text-on-surface-variant cursor-pointer transition-colors duration-200 focus-visible:outline focus-visible:outline-2 focus-visible:outline-violet"
+                  onClick={() => setShowDeepDive(true)}
+                >
+                  Deeper Dive
+                </button>
+              </div>
+
+              {/* Color swatches */}
+              <div
+                ref={scrollRef}
+                onMouseDown={handleMouseDown}
+                onDragStart={(e) => e.preventDefault()}
+                className="
+                  p-[2px]
+                  flex items-center gap-8
+                  max-w-[140px]
+                  overflow-x-scroll
+                  scrollbar-none
+                  h-10
+                  cursor-grab active:cursor-grabbing select-none
+                "
+                role="group"
+                aria-label="Color theme"
+              >
+                {COLOR_THEMES.map(t => (
+                  <button
+                    key={t.id}
+                    onClick={() => {
+                      if (hasMoved.current) return
+                      setThemeId(t.id)
+                    }}
+                    aria-label={`${t.label} theme`}
+                    aria-pressed={themeId === t.id}
+                    className="
+                      w-6 h-6 rounded-full
+                      flex-shrink-0
+                      transition-[transform,box-shadow,opacity] duration-200
+                      cursor-pointer border-0 p-0
+                      focus-visible:outline focus-visible:outline-2 focus-visible:outline-white/50
+                    "
+                    style={{
+                      background: t.swatch,
+                      opacity: themeId === t.id ? 1 : 0.35,
+                      transform: themeId === t.id ? 'scale(1.15)' : 'scale(1)',
+                      boxShadow: 'none',
+                    }}
+                  />
+                ))}
+              </div>
+              <button
+                type="button"
+                onClick={() => setIsSustaining(prev => !prev)}
+                aria-pressed={isSustaining}
+                className={`
+                  flex items-center gap-2
+                  bg-transparent border-0
+                  px-3 py-2
+                  text-[0.6rem]
+                  tracking-[0.22em] uppercase
+                  ${isSustaining ? 'text-white/70' : 'text-white/20'}
+                  cursor-pointer
+                  focus-visible:outline focus-visible:outline-2
+                  focus-visible:outline-violet
+                `}
+              >
+                <span
+                  className={`w-2 h-2 rounded-full ${
+                    isSustaining
+                      ? 'bg-white/70 shadow-[0_0_8px_-white/70]'
+                      : 'bg-white/20'
+                  }`}
+                />
+
+                Sustain Mode {isSustaining ? 'On' : 'Off'}
+            </button>
+            </>
+          )}
+
+          <PracticeSelector selectedId={practiceId} onSelect={handleSelectPractice} />
         </div>
       </main>
 

@@ -2,7 +2,15 @@ import { useState, useRef, useCallback, useEffect } from 'react'
 import SpatialAudioEngine from './SpatialAudioEngine'
 import * as Tone from 'tone'
 
-function XYController({ isActive, setIsActive, theme, isSustaining }) {
+function XYController({
+  isActive,
+  setIsActive,
+  theme,
+  isSustaining,
+  disabled = false,
+  onPadTouch,
+  onPadRelease,
+}) {
   const [position, setPosition] = useState({ x: 50, y: 50 })
   // Tracks literal physical contact with the pad, independent of `isActive`.
   // Needed because sustain mode keeps `isActive` true after release, so
@@ -40,6 +48,11 @@ function XYController({ isActive, setIsActive, theme, isSustaining }) {
   }, [buildGradient])
 
   const handlePointerDown = useCallback((e) => {
+    // While disabled (e.g. a guided practice's current step hasn't declared
+    // a touch transition yet), the pad is fully inert: no position update,
+    // no sound, no notification to the caller.
+    if (disabled) return
+
     e.preventDefault()
     padRef.current.setPointerCapture(e.pointerId)
     updatePosition(e)
@@ -55,7 +68,8 @@ function XYController({ isActive, setIsActive, theme, isSustaining }) {
     if (Tone.getContext().state !== 'running') {
       Tone.start()
     }
-  }, [updatePosition, setIsActive])
+    onPadTouch?.()
+  }, [disabled, updatePosition, setIsActive, onPadTouch])
 
   const handlePointerMove = useCallback((e) => {
     // Gate on physical contact, not `isActive` — while sustaining after
@@ -66,6 +80,7 @@ function XYController({ isActive, setIsActive, theme, isSustaining }) {
   }, [isPressed, updatePosition])
 
   const handlePointerUp = useCallback((e) => {
+    if (!isPressed) return
     e.preventDefault()
     padRef.current.releasePointerCapture(e.pointerId)
     setIsPressed(false)
@@ -76,7 +91,8 @@ function XYController({ isActive, setIsActive, theme, isSustaining }) {
     if (!isSustaining) {
       setIsActive(false)
     }
-  }, [isSustaining, setIsActive])
+    onPadRelease?.()
+  }, [isPressed, isSustaining, setIsActive, onPadRelease])
 
   // Reacts to the sustain toggle itself (not a pointer event, so it needs
   // its own effect). If sustain is switched off while nothing is pressed,
@@ -125,9 +141,12 @@ function XYController({ isActive, setIsActive, theme, isSustaining }) {
             WebkitUserSelect: 'none',
             // Initial gradient — overwritten by updatePosition on interaction
             background: buildGradient(50, 50),
+            opacity: disabled ? 0.6 : 1,
+            transition: 'opacity 0.3s ease',
           }}
           role="region"
           aria-label="Sound exploration pad"
+          aria-disabled={disabled}
           tabIndex={0}
           onPointerDown={handlePointerDown}
           onPointerMove={handlePointerMove}
@@ -154,8 +173,10 @@ function XYController({ isActive, setIsActive, theme, isSustaining }) {
           </div>
 
           {/* Idle instruction text — hidden by isActive, which correctly
-              stays true (and so keeps this hidden) throughout a sustain. */}
-          {!isActive && (
+              stays true (and so keeps this hidden) throughout a sustain.
+              Also hidden while disabled, since a practice's own PromptPanel
+              is showing the relevant text instead. */}
+          {!isActive && !disabled && (
             <div
               className="
                 absolute inset-0
@@ -171,7 +192,7 @@ function XYController({ isActive, setIsActive, theme, isSustaining }) {
                 text-center
                 drop-shadow-[0_0_15px_rgba(0,0,0,0.6)]
               ">
-                Touch and hold to begin.
+               Touch and hold to begin.
               </span>
             </div>
           )}
