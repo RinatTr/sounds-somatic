@@ -97,11 +97,9 @@ function App() {
 
       <main className="flex-grow flex flex-col items-center justify-center px-4 py-8">
         <div className="flex flex-col items-center gap-6">
-
           {practice && (
             <PromptPanel
               prompt={currentStep?.prompt}
-              secondaryPrompt={currentStep?.secondaryPrompt}
             />
           )}
 

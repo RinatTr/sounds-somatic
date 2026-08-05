@@ -46,7 +46,7 @@ export const exploringTheDoer = {
   steps: {
     intro: {
       id: 'intro',
-      prompt: 'This is a practice in noticing the "observer".',
+      prompt: 'This is a practice in noticing the sense of being the one who observes and acts.',
       controls: ['begin'],
       transitions: { begin: 'sensationPrompt' },
     },
@@ -54,14 +54,14 @@ export const exploringTheDoer = {
     // ---- sensation -> sound -> soundsation ----
     sensationPrompt: {
       id: 'sensationPrompt',
-      prompt: 'Let your attention find a sensation in your body.',
+      prompt: 'Let your attention settle on any sensation in your body.',
       soundAction: 'stop', // no-op on first entry; resets sound on "Explore again"
       transitions: { padTouch: 'sensationTouched' },
     },
     sensationTouched: {
       id: 'sensationTouched',
       activatingEvent: 'padTouch',
-      prompt: 'Let your attention find a sensation in your body.',
+      prompt: 'Let your attention settle on any sensation in your body.',
       soundAction: 'sustain',
       transitions: { padRelease: 'soundReleased', timer: 'soundMatchPrompt' }, //timer here means "after a pause, if the user hasn't released yet, show the next prompt"
       // delay before timer event fires
@@ -70,28 +70,28 @@ export const exploringTheDoer = {
     soundMatchPrompt: {
       id: 'soundMatchPrompt',
       activatingEvent: 'timer',
-      prompt: 'Explore whether any sound seems to resemble it.',
+      prompt: 'Explore whether any sound seems to resemble the sensation.',
       transitions: { padRelease: 'soundReleased', timer: 'soundMatchReady' },
       timerDelayMs: 6000, 
     },
     soundMatchReady: {
       id: 'soundMatchReady',
       activatingEvent: 'timer',
-      prompt: 'If you find something close enough, release to let the sound stay.',
+      prompt: 'If a sound feels close enough, release and let it stay.',
       transitions: { padRelease: 'soundReleased' },
     },
     soundReleased: {
       id: 'soundReleased',
       activatingEvent: 'padRelease',
       // carried forward — see modeling note above
-      prompt: 'If you find something close enough, release to let the sound stay.',
+      prompt: 'If a sound feels close enough, release and let it stay.',
       transitions: { timer: 'stayWithSound' },
       timerDelayMs: 1000,
     },
     stayWithSound: {
       id: 'stayWithSound',
       activatingEvent: 'timer',
-      prompt: "If you'd like, stay with the sound and sensation together for a while.",
+      prompt: "Let the sound hold with the sensation for a moment.",
       controls: ['continue', 'exploreAgain'],
       transitions: { continue: 'doerPrompt', exploreAgain: 'sensationPrompt' },
     },
@@ -99,14 +99,14 @@ export const exploringTheDoer = {
     // ---- notice and sonify the doer ----
     doerPrompt: {
       id: 'doerPrompt',
-      prompt: 'As you move again, look: "who" is using the pad? You might notice the feeling of "me doing this."',
+      prompt: 'As you move again, see if you can notice the feeling of "me doing this."',
       soundAction: 'stop',
       transitions: { padTouch: 'doerTouched' },
     },
     doerTouched: {
       id: 'doerTouched',
       activatingEvent: 'padTouch',
-      prompt: 'As you move again, look: "who" is using the pad? You might notice the feeling of "me doing this."',
+      prompt: 'As you move again, see if you can notice the feeling of "me doing this."',
       soundAction: 'sustain',
       transitions: { padRelease: 'doerReleased', timer: 'expressDoerPrompt' },
       timerDelayMs: 2000,
@@ -114,20 +114,20 @@ export const exploringTheDoer = {
     expressDoerPrompt: {
       id: 'expressDoerPrompt',
       activatingEvent: 'timer',
-      prompt: 'See whether the sound can express something of that feeling. Release when it feels close enough.',
+      prompt: 'See whether the sound can express something of that feeling. Release whenever it feels close enough.',
       transitions: { padRelease: 'doerReleased' },
     },
     doerReleased: {
       id: 'doerReleased',
       activatingEvent: 'padRelease',
-      prompt: 'See whether the sound can express something of that feeling. Release when it feels close enough.',
+      prompt: 'See whether the sound can express something of that feeling. Release whenever it feels close enough.',
       transitions: { timer: 'noticeAppearing' },
       timerDelayMs: 3000,
     },
     noticeAppearing: {
       id: 'noticeAppearing',
       activatingEvent: 'timer',
-      prompt: 'Notice that even "me doing this" is something appearing in experience.',
+      prompt: 'See whether "me doing this" can also be noticed as an experience.',
       controls: ['continue', 'exploreAgain'],
       transitions: { continue: 'wholeProcessPrompt', exploreAgain: 'doerPrompt' },
     },

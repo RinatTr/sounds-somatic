@@ -45,7 +45,7 @@ function PromptPanel({ prompt }) {
 
   return (
     <div
-      className="max-w-md min-h-[3.5rem] text-center px-4 mb-4 flex flex-col justify-center"
+      className="max-w-md text-center px-4 mb-4 flex flex-col justify-center"
       aria-live="polite"
     >
       <p
