@@ -25,7 +25,7 @@ function PracticeControls({ controls, onEvent }) {
   const hasControls = controls && controls.length > 0
 
   return (
-    <div className="min-h-[4rem] mt-4 flex gap-4 justify-center items-center">
+    <div className="min-h-[4rem] flex gap-4 justify-center items-center">
       {hasControls &&
         controls.map((control) => (
           <button

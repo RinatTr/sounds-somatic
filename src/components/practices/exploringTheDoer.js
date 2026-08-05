@@ -135,14 +135,14 @@ export const exploringTheDoer = {
     // ---- include the whole process ----
     wholeProcessPrompt: {
       id: 'wholeProcessPrompt',
-      prompt: 'Let sensation, intention, movement, sound, and "me doing it" all be here together.',
+      prompt: 'Let sensation, intention, movement, sound, and "me doing it" all be here together within awareness.',
       soundAction: 'stop',
       transitions: { padTouch: 'wholeProcessTouched' },
     },
     wholeProcessTouched: {
       id: 'wholeProcessTouched',
       activatingEvent: 'padTouch',
-      prompt: 'Let sensation, intention, movement, sound, and "me doing it" all be here together.',
+      prompt: 'Let sensation, intention, movement, sound, and "me doing it" all be here together within awareness.',
       soundAction: 'sustain',
       controls: ['finish'],
       transitions: { finish: END },
