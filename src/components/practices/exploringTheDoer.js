@@ -23,6 +23,16 @@
 //   rather than introducing new copy — the spec doesn't author distinct text
 //   for the instant of release itself. See the accompanying write-up.
 
+/* steps schema:
+    id: string // unique id for this step; used in transitions
+    prompt: string // the text to show in the prompt panel when this step is current
+    controls?: ('begin' | 'continue' | 'exploreAgain' | 'finish')[] //optional; if omitted, the runner shows no buttons and the user must
+    soundAction?: 'stop' | 'sustain' // what the runner should do with the sound on entry to this step. "stop" is a no-op if nothing is playing; "sustain" keeps the sound going (or starts it if it was stopped).
+    activatingEvent?: 'padTouch' | 'padRelease' | 'timer' // the event that triggers the transition to this step. If omitted, the step is entered immediately when its predecessor transitions to it.
+    timerDelayMs?: number // the delay in milliseconds before the timer event fires and transitions to the next step. If omitted, the timer event fires immediately.
+    transitions: { [eventName: string]: string } // maps event names to the id of the next step. The event names must match the activatingEvent values of other steps, or be one of the control names ('begin', 'continue', 'exploreAgain', 'finish').
+*/
+
 import { END } from '../usePracticeRunner'
 
 // Placeholder timings the spec described in words, not seconds — tune freely.
@@ -53,7 +63,8 @@ export const exploringTheDoer = {
       activatingEvent: 'padTouch',
       prompt: 'Let your attention find a sensation in your body.',
       soundAction: 'sustain',
-      transitions: { padRelease: 'soundReleased', timer: 'soundMatchPrompt' },
+      transitions: { padRelease: 'soundReleased', timer: 'soundMatchPrompt' }, //timer here means "after a pause, if the user hasn't released yet, show the next prompt"
+      // delay before timer event fires
       timerDelayMs: 2000,
     },
     soundMatchPrompt: {
@@ -61,7 +72,7 @@ export const exploringTheDoer = {
       activatingEvent: 'timer',
       prompt: 'Explore whether any sound seems to resemble it.',
       transitions: { padRelease: 'soundReleased', timer: 'soundMatchReady' },
-      timerDelayMs: 4000, 
+      timerDelayMs: 6000, 
     },
     soundMatchReady: {
       id: 'soundMatchReady',
@@ -75,7 +86,7 @@ export const exploringTheDoer = {
       // carried forward — see modeling note above
       prompt: 'If you find something close enough, release to let the sound stay.',
       transitions: { timer: 'stayWithSound' },
-      timerDelayMs: 3000,
+      timerDelayMs: 1000,
     },
     stayWithSound: {
       id: 'stayWithSound',
@@ -88,14 +99,14 @@ export const exploringTheDoer = {
     // ---- notice and sonify the doer ----
     doerPrompt: {
       id: 'doerPrompt',
-      prompt: 'As you move again, look for "who" is using the pad. You might notice the feeling of "me doing this."',
+      prompt: 'As you move again, look: "who" is using the pad? You might notice the feeling of "me doing this."',
       soundAction: 'stop',
       transitions: { padTouch: 'doerTouched' },
     },
     doerTouched: {
       id: 'doerTouched',
       activatingEvent: 'padTouch',
-      prompt: 'As you move again, look for "who" is using the pad. You might notice the feeling of "me doing this."',
+      prompt: 'As you move again, look: "who" is using the pad? You might notice the feeling of "me doing this."',
       soundAction: 'sustain',
       transitions: { padRelease: 'doerReleased', timer: 'expressDoerPrompt' },
       timerDelayMs: 2000,
