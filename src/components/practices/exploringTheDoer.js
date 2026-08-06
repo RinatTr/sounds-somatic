@@ -127,7 +127,7 @@ export const exploringTheDoer = {
     noticeAppearing: {
       id: 'noticeAppearing',
       activatingEvent: 'timer',
-      prompt: 'See whether "me doing this" can also be noticed as an experience.',
+      prompt: 'See whether "me doing this" can also be noticed as an experience. If this is who you are, what is doing the noticing?',
       controls: ['continue', 'exploreAgain'],
       transitions: { continue: 'wholeProcessPrompt', exploreAgain: 'doerPrompt' },
     },
@@ -135,14 +135,14 @@ export const exploringTheDoer = {
     // ---- include the whole process ----
     wholeProcessPrompt: {
       id: 'wholeProcessPrompt',
-      prompt: 'Let sensation, intention, movement, sound, and "me doing it" all be here together within awareness.',
+      prompt: 'Let sensation, intention, movement, sound, the "me doing it" and the noticing, all be here together within awareness.',
       soundAction: 'stop',
       transitions: { padTouch: 'wholeProcessTouched' },
     },
     wholeProcessTouched: {
       id: 'wholeProcessTouched',
       activatingEvent: 'padTouch',
-      prompt: 'Let sensation, intention, movement, sound, and "me doing it" all be here together within awareness.',
+      prompt: 'Let sensation, intention, movement, sound, the "me doing it" and the noticing, all be here together within awareness.',
       soundAction: 'sustain',
       controls: ['finish'],
       transitions: { finish: END },
