@@ -35,7 +35,7 @@ export const secondArrow = {
       id: 'matchSound',
       activatingEvent: 'timer',
       prompt: 'Explore whether a sound can resemble the sensation.',
-      timerDelayMs: 6000,
+      timerDelayMs: 5000,
       transitions: {
         padRelease: 'soundReleased',
         timer: 'releaseWhenReady',
@@ -65,14 +65,14 @@ export const secondArrow = {
     experiencesInAwareness: {
       id: 'experiencesInAwareness',
       prompt:
-        'Notice the sound holding the sensation as an experience happening in awareness.',
-      timerDelayMs: 4000,
+        'Notice the sound holding the sensation as an experience happening in awareness, and the openness in which anything else could appear.',
+      timerDelayMs: 10000,
       transitions: { timer: 'notAllOfYou' },
     },
     notAllOfYou: {
       id: 'notAllOfYou',
       activatingEvent: 'timer',
-      prompt: 'The sensation is real, yet is not who you are.',
+      prompt: "Let the sensation happen on its own, like the sound. Try to sense its bare qualities.",
       controls: ['continue'],
       transitions: { continue: 'noticeReaction' },
     },
@@ -81,14 +81,14 @@ export const secondArrow = {
     noticeReaction: {
       id: 'noticeReaction',
       prompt:
-        'Notice any aversion, grasping or wish for the sensation to stop.',
+        'Alongside the sensation, notice whether anything else is happening around it.',
       timerDelayMs: 7000,
       transitions: { timer: 'nameSecondArrow' },
     },
     nameSecondArrow: {
       id: 'nameSecondArrow',
       activatingEvent: 'timer',
-      prompt: 'This added feeling may be the second arrow.',
+      prompt: 'Any added tightening or effort may be the second arrow.',
       timerDelayMs: 6000,
       transitions: { timer: 'allowBoth' },
     },
@@ -96,7 +96,7 @@ export const secondArrow = {
       id: 'allowBoth',
       activatingEvent: 'timer',
       prompt:
-        'See if the sensation and your reaction to it can both be allowed for now.',
+        'Let the sensation and what gathers around it both be here for now.',
       controls: ['continue'],
       transitions: { continue: 'noticeWhatCanGo' },
     },
@@ -105,7 +105,7 @@ export const secondArrow = {
     noticeWhatCanGo: {
       id: 'noticeWhatCanGo',
       prompt:
-        'Perhaps the added feeling can now loosen, even slightly.',
+        'Perhaps you can relax the added efforts and reactions, even slightly.',
       timerDelayMs: 7000,
       transitions: { timer: 'allowRemaining' },
     },
@@ -121,7 +121,7 @@ export const secondArrow = {
     inviteCompassion: {
       id: 'inviteCompassion',
       prompt:
-        'From the space that has opened, notice what kindness might offer.',
+        'From whatever space is here, notice what kindness might offer.',
       timerDelayMs: 7000,
       transitions: { timer: 'compassionPhrase' },
     },
@@ -129,7 +129,7 @@ export const secondArrow = {
       id: 'compassionPhrase',
       activatingEvent: 'timer',
       prompt:
-        'Perhaps: “I see you, I am staying with you.”',
+        'Perhaps: “This is difficult. I am here with it.”',
       timerDelayMs: 7000,
       transitions: { timer: 'carryKindness' },
     },
