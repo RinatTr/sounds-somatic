@@ -65,10 +65,18 @@ export const secondArrow = {
     experiencesInAwareness: {
       id: 'experiencesInAwareness',
       prompt:
-        'Notice the sound holding the sensation as an experience happening in awareness, and the openness in which anything else could appear.',
-      timerDelayMs: 10000,
+        'Notice the experience of the sound holding the sensation.',
+      timerDelayMs: 6000,
+      transitions: { timer: 'theOpenness' },
+    },
+     theOpenness: {
+      id: 'theOpenness',
+      prompt:
+        'Now, notice the openness in which anything else could appear alongside it: a thought, another sensation.',
+      timerDelayMs: 8000,
       transitions: { timer: 'notAllOfYou' },
     },
+
     notAllOfYou: {
       id: 'notAllOfYou',
       activatingEvent: 'timer',
