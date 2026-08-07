@@ -1,7 +1,7 @@
 const LABELS = {
   begin: 'Start',
   continue: 'Continue',
-  exploreAgain: 'Explore again',
+  exploreAgain: 'Redo step',
   finish: 'Finish',
 }
 

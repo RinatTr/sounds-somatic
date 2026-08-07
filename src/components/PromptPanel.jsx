@@ -36,7 +36,7 @@ function PromptPanel({ prompt }) {
   aria-live="polite"
 >
   <p
-    className="font-sans text-base md:text-lg tracking-[0.05em] leading-relaxed text-on-surface-variant break-words whitespace-normal"
+    className="font-sans font-thin italic text-base md:text-lg tracking-normal leading-snug text-on-surface-variant break-words whitespace-normal"
     style={{
       opacity: isVisible ? 1 : 0,
       transition: `opacity ${FADE_MS}ms ease-in-out`,
