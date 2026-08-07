@@ -151,7 +151,7 @@ function App() {
       </div>
 
       <main className="flex-grow flex flex-col items-center justify-center px-4 py-8">
-        <div className="flex flex-col items-center gap-6">
+        <div className="flex flex-col items-center gap-3">
           {/* Pad + directional labels */}
           <div className="relative flex items-center justify-center">
             {practice && (
@@ -213,31 +213,14 @@ function App() {
 
           {!practice && (
             <>
-              {/* Container for modal buttons */}
-              <div className="mt-2 flex w-full justify-around gap-4">
-                <button
-                  className="mt-6 bg-transparent border border-white/15 rounded-[14px] px-5 py-2 font text-[0.75rem] tracking-[0.2em] uppercase text-on-surface-variant cursor-pointer transition-colors duration-200 focus-visible:outline focus-visible:outline-2 focus-visible:outline-violet"
-                  onClick={() => setShowInstructions(true)}
-                >
-                  How to Use
-                </button>
-
-                <button
-                  className="mt-6 bg-transparent border border-white/15 rounded-[14px] px-5 py-2 font text-[0.75rem] tracking-[0.2em] uppercase text-on-surface-variant cursor-pointer transition-colors duration-200 focus-visible:outline focus-visible:outline-2 focus-visible:outline-violet"
-                  onClick={() => setShowDeepDive(true)}
-                >
-                  Deeper Dive
-                </button>
-              </div>
-
               {/* Color swatches */}
               <div
                 ref={scrollRef}
                 onMouseDown={handleMouseDown}
                 onDragStart={(event) => event.preventDefault()}
                 className="
-                  p-[2px]
-                  flex items-center gap-8
+                  mt-10 p-[3px]
+                  flex items-center gap-7
                   max-w-[140px]
                   overflow-x-scroll
                   scrollbar-none
@@ -266,12 +249,12 @@ function App() {
                     "
                     style={{
                       background: themeOption.swatch,
-                      opacity:
-                        themeId === themeOption.id ? 1 : 0.35,
-                      transform:
+                      opacity: themeId === themeOption.id ? 1 : 0.35,
+                      outline:
                         themeId === themeOption.id
-                          ? 'scale(1.15)'
-                          : 'scale(1)',
+                          ? `1px solid ${themeOption.swatch}`
+                          : 'none',
+                      outlineOffset: '2px',
                       boxShadow: 'none',
                     }}
                   />
@@ -312,11 +295,30 @@ function App() {
               </button>
             </>
           )}
-
           <PracticeSelector
             selectedId={practiceId}
             onSelect={handleSelectPractice}
           />
+          {!practice && (
+            <>
+              {/* Container for modal buttons */}
+              <div className="mt-2 flex w-full justify-around gap-4">
+                <button
+                  className="bg-transparent border border-white/15 rounded-[14px] px-5 py-2 font text-[0.75rem] tracking-[0.2em] uppercase text-on-surface-variant cursor-pointer transition-colors duration-200 focus-visible:outline focus-visible:outline-2 focus-visible:outline-violet"
+                  onClick={() => setShowInstructions(true)}
+                >
+                  How to Use
+                </button>
+
+                <button
+                  className="bg-transparent border border-white/15 rounded-[14px] px-5 py-2 font text-[0.75rem] tracking-[0.2em] uppercase text-on-surface-variant cursor-pointer transition-colors duration-200 focus-visible:outline focus-visible:outline-2 focus-visible:outline-violet"
+                  onClick={() => setShowDeepDive(true)}
+                >
+                  Deeper Dive
+                </button>
+              </div>
+            </>
+          )}
         </div>
       </main>
 
