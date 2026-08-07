@@ -17,7 +17,7 @@ function PracticeSelector({ selectedId, onSelect }) {
       aria-label="Choose a practice"
       className="
         bg-transparent 
-        px-4 py-2 font-sans text-[0.7rem] tracking-[0.15em] uppercase
+        px-4 py-2 font-sans text-xs tracking-[0.15em] uppercase
         text-on-surface-variant cursor-pointer rounded
       "
     >
