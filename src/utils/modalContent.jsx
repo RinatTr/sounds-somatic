@@ -42,7 +42,7 @@ export const PAGES = Object.freeze({
   ],
   DEEP_DIVE: [
   {
-    title: 'The Mindset',
+    title: 'Deeper Dive',
     content: (
       <>
         <p>You don't have to understand any of the following, only notice.</p>
@@ -54,7 +54,7 @@ export const PAGES = Object.freeze({
     ),
   },
   {
-    title: 'Before Attention',
+    title: '',
     content: (
       <>
         <p>
@@ -63,18 +63,17 @@ export const PAGES = Object.freeze({
         </p>
         <p>
           The pressure where you're sitting, the temperature of the air where it
-          meets your skin, a tingling, maybe, if you rest your attention there for a while. The small movement of breath.
+          meets your skin, a tingling, maybe, if you rest your attention there for a while. The movement of breath.
         </p>
         <p>
           These things were happening a moment ago, even without your attention
-          on them. Sensation doesn't need to be
-          summoned, just met.
+          on them; sensation doesn't need to be summoned, just met.
         </p>
       </>
     ),
   },
   {
-    title: 'Softer Attention',
+    title: '',
     content: (
       <>
         <p>
@@ -87,7 +86,7 @@ export const PAGES = Object.freeze({
         </p>
         <p>
           The body's sense of its own interior, sometimes called interoception,
-          tends to open this way. Through patient dwelling more than
+          tends to open this way: through patient dwelling more than
           concentration. The longer attention rests somewhere, the more it finds
           to rest on.
         </p>
@@ -99,16 +98,16 @@ export const PAGES = Object.freeze({
     ),
   },
   {
-    title: 'Sound Access',
+    title: '',
     content: (
       <>
         <p>
-          We don't reach for sound. It arrives on its own, from all directions at once, continuously.
+          We don't reach for sound, it arrives on its own.
         </p>
         <p>
           A tone in the background, one you're not particularly analyzing or
           following, can quietly hold attention in place, the way a slow rhythm
-          settles a room. Without competing with what's already inside. Without
+          settles a room. Without competing with what's already inside, without
           forcing anything. Just present.
         </p>
         <p>
@@ -122,7 +121,7 @@ export const PAGES = Object.freeze({
     ),
   },
   {
-    title: 'Sound-Lock',
+    title: '',
     content: (
       <>
         <p>
@@ -140,14 +139,14 @@ export const PAGES = Object.freeze({
           them into two different worlds.
         </p>
         <p>
-          When it happens, it's quiet. Ordinary, almost. A kind of settling, a
+          When it happens, it's quiet; a kind of settling, a
           line you didn't know you were maintaining dissolving away.
         </p>
       </>
     ),
   },
   {
-    title: 'Resting in the Merge',
+    title: '',
     content: (
       <>
         <p>
@@ -156,7 +155,7 @@ export const PAGES = Object.freeze({
           than watching it from a slight distance.
         </p>
         <p>
-          Sound doesn't feel like it's happening out there. It feels closer to
+          Sound doesn't feel like it's happening out there, but closer to
           how breath feels, or a heartbeat, something that's just part of the
           field you're already in.
         </p>
@@ -165,14 +164,14 @@ export const PAGES = Object.freeze({
           sound, without urgency. Nothing needs to be resolved.
         </p>
         <p>
-          What tends to stay is something calm and a little curious. Spacious.
-          Present, without being intense.
+          What tends to stay is something calm and a little curious, spacious and
+          present, without being intense.
         </p>
       </>
     ),
   },
   {
-    title: 'Inviting Sound',
+    title: '',
     content: (
       <>
         <p>Whenever you feel ready, let a sound into that space.</p>

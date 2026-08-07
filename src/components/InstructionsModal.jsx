@@ -2,7 +2,6 @@ import { useState } from 'react'
 
 function InstructionsModal({ isOpen, onClose, PAGES }) {
   const [pageIndex, setPageIndex] = useState(0)
-  console.log("PAGES", PAGES)
   const handleClose = () => {
     setPageIndex(0)
     onClose()
