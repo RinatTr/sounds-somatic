@@ -158,10 +158,11 @@ function App() {
               <div
                 className="
                   absolute bottom-full left-1/2 z-10
-                  mb-6
+                  mb-2
                   w-[min(28rem,calc(100vw-2rem))]
+                  max-h-[25vh] overflow-y-auto
                   -translate-x-1/2
-                  pointer-events-none
+                  pointer-events-auto
                 "
               >
                 <PromptPanel prompt={currentStep?.prompt} />

@@ -31,20 +31,20 @@ function PromptPanel({ prompt }) {
   if (!displayedPrompt) return null
 
   return (
-    <div
-      className="flex flex-col justify-center px-4 text-center"
-      aria-live="polite"
-    >
-      <p
-        className="font-sans text-base md:text-lg tracking-[0.05em] leading-relaxed text-on-surface-variant"
-        style={{
-          opacity: isVisible ? 1 : 0,
-          transition: `opacity ${FADE_MS}ms ease-in-out`,
-        }}
-      >
-        {displayedPrompt}
-      </p>
-    </div>
+  <div
+  className="flex flex-col justify-center px-4 text-center max-h-full"
+  aria-live="polite"
+>
+  <p
+    className="font-sans text-base md:text-lg tracking-[0.05em] leading-relaxed text-on-surface-variant break-words whitespace-normal"
+    style={{
+      opacity: isVisible ? 1 : 0,
+      transition: `opacity ${FADE_MS}ms ease-in-out`,
+    }}
+  >
+    {displayedPrompt}
+  </p>
+</div>
   )
 }
 

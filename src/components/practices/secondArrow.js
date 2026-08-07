@@ -72,7 +72,7 @@ export const secondArrow = {
      theOpenness: {
       id: 'theOpenness',
       prompt:
-        'Now, notice the openness in which anything else could appear alongside it: a thought, another sensation.',
+        'Now, notice the openness in which anything else could appear alongside it.',
       timerDelayMs: 8000,
       transitions: { timer: 'notAllOfYou' },
     },
@@ -89,7 +89,7 @@ export const secondArrow = {
     noticeReaction: {
       id: 'noticeReaction',
       prompt:
-        'Alongside the sensation, notice whether anything else is happening around it.',
+        'Notice whether anything else is happening around it.',
       timerDelayMs: 7000,
       transitions: { timer: 'nameSecondArrow' },
     },
