@@ -32,7 +32,7 @@ function PromptPanel({ prompt }) {
 
   return (
   <div
-  className="flex flex-col justify-center px-4 text-center max-h-full"
+  className="h-full flex flex-col justify-center px-4 text-center"
   aria-live="polite"
 >
   <p

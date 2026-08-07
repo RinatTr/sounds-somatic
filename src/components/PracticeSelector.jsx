@@ -19,7 +19,6 @@ function PracticeSelector({ selectedId, onSelect }) {
         mt-1 bg-transparent 
         px-4 py-2 font-sans text-[0.7rem] tracking-[0.15em] uppercase
         text-on-surface-variant cursor-pointer
-        focus-visible:outline focus-visible:outline-2 focus-visible:outline-violet
       "
     >
       <option value={FREE_PLAY_VALUE}>Free Play</option>
