@@ -205,10 +205,39 @@ function App() {
           </div>
 
           {practice && (
-            <PracticeControls
-              controls={currentStep?.controls}
-              onEvent={dispatch}
-            />
+            <>
+              <PracticeControls
+                controls={currentStep?.controls}
+                onEvent={dispatch}
+              />
+              {/* mute/unmute icon */}
+              <button
+                type="button"
+                onClick={() => setIsActive((prev) => !prev)}
+                aria-label={isActive ? 'Mute' : 'Unmute'}
+                className="
+                  fixed right-4 bottom-10
+                  mt-2
+                  bg-transparent border-0
+                  text-[0.6rem]
+                  tracking-[0.22em] uppercase
+                  opacity-70
+                "
+              >
+                {/* SVG mute / unmute icon toggle */}
+                {isActive 
+                  ? <svg xmlns="http://w3.org" className="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                      <path d="M11 5L6 9H2v6h4l5 4V5z"></path>
+                      <path d="M19.07 4.93a10 10 0 0 1 0 14.14M15.54 8.46a5 5 0 0 1 0 7.07"></path>
+                    </svg>
+                  : <svg xmlns="http://w3.org" className="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                      <path d="M11 5L6 9H2v6h4l5 4V5z"></path>
+                      <line x1="23" y1="9" x2="17" y2="15"></line>
+                      <line x1="17" y1="9" x2="23" y2="15"></line>
+                   </svg>
+                }
+              </button>
+            </>
           )}
 
           {!practice && (
