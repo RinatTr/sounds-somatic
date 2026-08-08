@@ -9,8 +9,7 @@
 // - Every timed prompt change is its own step (flat graph, no nested
 //   timelines).
 // - `timerDelayMs` is measured from the moment THIS step became current, not
-//   from the original touch/release event. The "1s then +2s" (=3s total
-//   since touch) cascade is expressed as 1000 then 2000 below.
+//   from the original touch/release event.
 // - A step whose prompt is unchanged from the previous one (e.g. the instant
 //   of touch, or the instant of release, before any timer-driven text change)
 //   still gets its own step id — it exists to hold the soundAction and/or
@@ -19,9 +18,17 @@
 //   is idempotent (harmless if nothing is playing) and is what kills a
 //   previous cascade's sustained sound on Continue, and what "Explore again"
 //   relies on to reset a cascade's sound.
-// - "Release" steps carry forward the previously-shown prompt/secondaryPrompt
-//   rather than introducing new copy — the spec doesn't author distinct text
-//   for the instant of release itself. See the accompanying write-up.
+// - "Release" steps carry forward the previously-shown prompt rather than
+//   introducing new copy — the spec doesn't author distinct text for the
+//   instant of release itself.
+// - IMPORTANT: any step that declares `controls` should be reached via a
+//   `timer` transition, never directly via `padTouch`/`padRelease`. Touch and
+//   release handlers already do other work in the same tick (position
+//   updates, starting audio); routing straight into a controls-bearing step
+//   from one of them caused the "finish" button to flicker on entry. A
+//   timer-reached step — even a very short one — cleanly separates "the
+//   interaction happened" from "a control is now available". See
+//   wholeProcessTouched -> readyToFinish below for the pattern.
 
 /* steps schema:
     id: string // unique id for this step; used in transitions
@@ -35,9 +42,9 @@
 
 import { END } from '../usePracticeRunner'
 
-// Placeholder timings the spec described in words, not seconds — tune freely.
-const PAUSE_BEFORE_NAMING_DELAY_MS = 4000 // "After several seconds..."
-const BOUNDARY_SECONDARY_DELAY_MS = 2000 // "After a short delay..."
+// Buffer between the final touch and Finish becoming available — keeps the
+// controls-bearing step off the padTouch handler itself. See the note above.
+const READY_TO_FINISH_DELAY_MS = 1500
 
 export const exploringTheDoer = {
   id: 'exploring-the-doer',
@@ -72,7 +79,7 @@ export const exploringTheDoer = {
       activatingEvent: 'timer',
       prompt: 'Explore whether any sound seems to resemble the sensation.',
       transitions: { padRelease: 'soundReleased', timer: 'soundMatchReady' },
-      timerDelayMs: 6000, 
+      timerDelayMs: 6000,
     },
     soundMatchReady: {
       id: 'soundMatchReady',
@@ -91,7 +98,7 @@ export const exploringTheDoer = {
     stayWithSound: {
       id: 'stayWithSound',
       activatingEvent: 'timer',
-      prompt: "Let the sound hold with the sensation for a moment.",
+      prompt: 'Let the sound hold with the sensation for a moment.',
       controls: ['continue', 'exploreAgain'],
       transitions: { continue: 'doerPrompt', exploreAgain: 'sensationPrompt' },
     },
@@ -144,6 +151,14 @@ export const exploringTheDoer = {
       activatingEvent: 'padTouch',
       prompt: 'Let sensation, intention, movement, sound, the "me doing it" and the noticing, all be here together within awareness.',
       soundAction: 'sustain',
+      // No controls here on purpose — see the note at the top of this file.
+      transitions: { timer: 'readyToFinish' },
+      timerDelayMs: READY_TO_FINISH_DELAY_MS,
+    },
+    readyToFinish: {
+      id: 'readyToFinish',
+      activatingEvent: 'timer',
+      prompt: 'Let sensation, intention, movement, sound, the "me doing it" and the noticing, all be here together within awareness.',
       controls: ['finish'],
       transitions: { finish: END },
     },
