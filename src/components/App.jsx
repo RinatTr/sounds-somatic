@@ -208,6 +208,7 @@ function App() {
             <>
               <PracticeControls
                 controls={currentStep?.controls}
+                stepId={currentStep?.id}
                 onEvent={dispatch}
               />
               {/* mute/unmute icon */}
@@ -218,10 +219,11 @@ function App() {
                 className="
                   fixed right-4 bottom-10
                   mt-2
-                  bg-transparent border-0
+                  px-1 py-1
+                  bg-transparent border-[1px] border-white rounded-[14px]
                   text-[0.6rem]
                   tracking-[0.22em] uppercase
-                  opacity-70
+                  opacity-60
                 "
               >
                 {/* SVG mute / unmute icon toggle */}

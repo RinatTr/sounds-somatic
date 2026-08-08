@@ -1,5 +1,12 @@
 import { END } from '../usePracticeRunner'
 
+// Buffer between release and the continue/exploreAgain controls becoming
+// available. Same reasoning as exploringTheDoer.js's READY_TO_FINISH_DELAY_MS
+// — controls-bearing steps should be reached via `timer`, not directly off a
+// pointer-event handler (padTouch/padRelease), to avoid the button flickering
+// in on entry.
+const SOUND_HELD_DELAY_MS = 1500
+
 export const secondArrow = {
   id: 'second-arrow',
   title: 'Second Arrow',
@@ -54,13 +61,22 @@ export const secondArrow = {
       activatingEvent: 'padRelease',
       prompt: 'For a moment, let the sound hold the sensation with you.',
       soundAction: 'sustain',
+      // No controls here on purpose — see the note at the top of this file.
+      transitions: { timer: 'soundHeld' },
+      timerDelayMs: SOUND_HELD_DELAY_MS,
+    },
+    soundHeld: {
+      id: 'soundHeld',
+      activatingEvent: 'timer',
+      // carried forward — no new copy authored for this brief pause
+      prompt: 'For a moment, let the sound hold the sensation with you.',
       controls: ['continue', 'exploreAgain'],
-    //   timerDelayMs: 4000,
       transitions: {
         continue: 'experiencesInAwareness',
         exploreAgain: 'findSensation',
       },
     },
+
     // ---- make room around it ----
     experiencesInAwareness: {
       id: 'experiencesInAwareness',
