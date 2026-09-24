@@ -105,7 +105,7 @@ export const secondArrow = {
     noticeReaction: {
       id: 'noticeReaction',
       prompt:
-        'Notice whether anything else is happening around it.',
+        'Notice whether anything else is happening alongside it.',
       timerDelayMs: 7000,
       transitions: { timer: 'nameSecondArrow' },
     },
@@ -120,7 +120,7 @@ export const secondArrow = {
       id: 'allowBoth',
       activatingEvent: 'timer',
       prompt:
-        'Let the sensation and what gathers around it both be here for now.',
+        'Let the sensation and what happens alongside it both be here for now.',
       controls: ['continue'],
       transitions: { continue: 'noticeWhatCanGo' },
     },
@@ -136,7 +136,7 @@ export const secondArrow = {
     allowRemaining: {
       id: 'allowRemaining',
       activatingEvent: 'timer',
-      prompt: 'If it remains, let that be allowed too.',
+      prompt: 'If any remain, let that be allowed too.',
       controls: ['continue'],
       transitions: { continue: 'inviteCompassion' },
     },
